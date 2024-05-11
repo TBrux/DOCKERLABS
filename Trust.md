@@ -17,7 +17,7 @@ rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms
 
 Una vez nos responde ping y ya podemos empezar enumerando la máquina. El ttl=64 nos puede indicar que sea una máquina **Linux**.
 
-Lanzamos #nmap para ver que puertos nos encuentra.
+Lanzamos # nmap para ver que puertos nos encuentra.
 
 ```bash
 nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
