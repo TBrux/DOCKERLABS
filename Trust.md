@@ -1,3 +1,7 @@
+# Trust
+
+## Reconocimiento y Enumeración
+
 Comprobar que la máquina está en marcha.
 
 ```bash
@@ -103,6 +107,8 @@ Starting gobuster in directory enumeration mode
 Encontramos una página que nos llama la atención, que es **/secret.php**.
 
 En la página http://172.17.0.2/secret.php encontramos un mensaje de lo que podemos pensar que **Mario** podría ser un usuario. Como tenemos el puerto 22 abierto, podríamos probar la intrusión por fuerza bruta con #hydra.
+
+## Explotación
 
 ```bash
 hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
