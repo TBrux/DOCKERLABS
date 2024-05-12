@@ -105,7 +105,7 @@ $port = 4443;       // CHANGE THIS
 
 Subimos el archivo y vemos que acepta archivos php.
 
-![UPLOAD-shell.PNG]
+![[UPLOAD-shell.PNG]]
 
 Si vamos al directorio http://172.17.0.2/uploads/ vemos que nuestro archivo está subido y solo tendremos que hacer click sobre él y estar a la espera en nuestro equipo con netcat en puerto que habíamos indicado en el script.
 
