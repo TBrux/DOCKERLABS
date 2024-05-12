@@ -32,7 +32,7 @@ nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 - `-oG allPorts`: Guarda los resultados en un archivo llamado "allPorts".
 - `172.17.0.2`: La dirección IP del host objetivo.
 
-```bash
+```
 PORT   STATE SERVICE REASON
 22/tcp open  ssh     syn-ack ttl 64
 80/tcp open  http    syn-ack ttl 64
