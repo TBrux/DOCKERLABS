@@ -1,6 +1,6 @@
 # Trust
 
-## Reconocimiento y Enumeración
+## Reconocimiento y Enumeración.
 
 Comprobar que la máquina está en marcha.
 
@@ -108,7 +108,7 @@ Encontramos una página que nos llama la atención, que es **/secret.php**.
 
 En la página http://172.17.0.2/secret.php encontramos un mensaje de lo que podemos pensar que **Mario** podría ser un usuario. Como tenemos el puerto 22 abierto, podríamos probar la intrusión por fuerza bruta con hydra.
 
-## Explotación
+## Explotación.
 
 ```bash
 hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
@@ -150,6 +150,7 @@ permitted by applicable law.
 Last login: Wed Mar 20 09:54:46 2024 from 192.168.0.21
 mario@49a6455029e0:~$ 
 ```
+## Escalada de privilegios.
 
 Una vez dentro para escalar privilegios, vamos a probar si hay algún archivo que podamos ejecutar como mario pero con permisos de root.
 
