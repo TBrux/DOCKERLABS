@@ -100,6 +100,6 @@ $
 ```
 Vamos a leer el correo que nos había dejado Juan, el directorio donde se guardan los correos es **/var/correo**
 ```bash
-cd /var/correo/camilo
+cd /var/mail/camilo
 ```
 
