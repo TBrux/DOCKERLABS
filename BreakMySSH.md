@@ -60,5 +60,14 @@ PORT   STATE SERVICE REASON         VERSION
 |   256 4b:15:7e:7b:b3:07:54:3d:74:ad:e0:94:78:0c:94:93 (ED25519)
 |_ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICFLUqv+frul58FgQLXP91bNrTRC9d1X545DZJ0wsw6z
 MAC Address: 02:42:AC:11:00:02 (Unknown)
-``
+```
+Al tener una versión de ssh que no permite la enumeración de usuarios y únicamente tenemos el puerto 22 abierto, vamos a probar con hydra y fuerza bruta si podemos obtener el password de root.
 
+## Explotación.
+
+```bash
+hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+```
+- `-l root`: Especifica el nombre de usuario "root" para el intento de inicio de sesión.
+- `-P /usr/share/wordlists/rockyou.txt`: Especifica la ubicación del archivo de contraseñas a utilizar. En este caso, se utiliza el archivo "rockyou.txt" como lista de contraseñas.
+- `ssh://172.17.0.2`: Indica el protocolo a utilizar (`ssh`) y la dirección IP del host objetivo (`172.17.0.2`). Esto establece el destino del intento de inicio de sesión mediante SSH.
