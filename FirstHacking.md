@@ -66,7 +66,7 @@ vsftpd 2.3.4 - Backdoor Command Execution (Metasploit)                          
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
 ```
 
-En este caso yo voy a utilizar un exploit que encontramos en [GITHUB](https://github.com/Hellsender01/vsftpd_2.3.4_Exploit). Seguimos las instrucción que nos indican en la página y nos crea un reverse shell como usuario root de la máquina.
+En este caso yo voy a utilizar un exploit que encontramos en [GITHUB](https://github.com/Hellsender01/vsftpd_2.3.4_Exploit). Seguimos las instrucción que nos indican en la página y nos crea una reverse shell como usuario root de la máquina.
 
 ```bash
 sudo python3 -m pip install pwntools
