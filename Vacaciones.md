@@ -98,8 +98,37 @@ $ whoami
 camilo
 $
 ```
-Vamos a leer el correo que nos había dejado Juan, el directorio donde se guardan los correos es **/var/correo**
+Vamos a leer el correo que nos había dejado Juan, el directorio donde se guardan los correos es **/var/correo.**
 ```bash
 cd /var/mail/camilo
 ```
+```bash
+$ cd /var/mail/camilo
+$ ls
+correo.txt
+```
+Encontramos el correo de juan con la contraseña.
+```bash
+Hola Camilo,
+
+Me voy de vacaciones y no he terminado el trabajo que me dio el jefe. Por si acaso lo pide, aquí tienes la contraseña: 2k84dicb
+```
+Cambiamos al usuario Juan con la contraseña obtenida.
+```bash
+su juan
+```
+```bash
+$ su juan
+Password: 
+$ whoami
+juan
+```
+Hacemos un tratamiento de la tty y buscamos archivos que podamos utilizar desde juan con permisos de root.
+```bash
+script /dev/null -c bash
+```
+```bash
+sudo -l
+```
+
 
