@@ -34,17 +34,17 @@ nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 
 ```bash
 PORT   STATE SERVICE REASON
-80/tcp open  http    syn-ack ttl 64
+22/tcp open  ssh     syn-ack ttl 64
 MAC Address: 02:42:AC:11:00:02 (Unknown)
 ```
 
-Como tenemos abierto el puerto 21, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+Como tenemos abierto el puerto 22, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
 nmap -sCV -p21 -vvv -oN versionPorts 172.17.0.2
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
-- `-p21`: Escaneo de los puertos 21 (FTP).
+- `-p21`: Escaneo de los puertos 22 (SSH).
 - `-vvv`: Salida muy detallada y verbosa.
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
