@@ -41,10 +41,10 @@ MAC Address: 02:42:AC:11:00:02 (Unknown)
 Como tenemos abierto el puerto 22, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
-nmap -sCV -p21 -vvv -oN versionPorts 172.17.0.2
+nmap -sCV -p22 -vvv -oN versionPorts 172.17.0.2
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
-- `-p21`: Escaneo de los puertos 22 (SSH).
+- `-p22`: Escaneo de los puertos 22 (SSH).
 - `-vvv`: Salida muy detallada y verbosa.
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
