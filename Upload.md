@@ -141,7 +141,7 @@ User www-data may run the following commands on ebd3a0fc70ea:
 $ 
 ```
 
-Vemos que podemos utilizar el binario /usr/bin/env y para ello podemos ir a [GTFOBins](https://gtfobins.github.io/)y ver como explotar ese binario como muchos otros. En este caso simplemento tenemos que poner el siguiente comando.
+Vemos que podemos utilizar el binario /usr/bin/env y para ello podemos ir a [GTFOBins](https://gtfobins.github.io/) y ver como explotar ese binario como muchos otros. En este caso simplemento tenemos que poner el siguiente comando.
 
 ```bash
 sudo /usr/bin/env /bin/bash
