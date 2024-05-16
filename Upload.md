@@ -160,7 +160,7 @@ Para más comodidad podemos hacer un tratamiento de la tty.
 script /dev/null -c bash
 ```
 
--- Hacemos Ctrl + c --
+-- Hacemos Ctrl + Z --
 
 ```bash
 stty -raw echo; fg
