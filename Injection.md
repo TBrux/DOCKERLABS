@@ -70,7 +70,7 @@ MAC Address: 02:42:AC:11:00:02 (Unknown)
 Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 ```
 ## Explotación.
-Vamos directamente a la enumerar el puerto 80 desde el navegador y vemos que hay un formulario de login. Probamos una inyección sql.
+Vamos directamente a enumerar el puerto 80 desde el navegador y vemos que hay un formulario de login. Probamos una inyección sql.
 ```bash
 User: admin' OR 1 = 1 -- -
 Password: hola
