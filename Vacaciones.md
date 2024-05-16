@@ -113,6 +113,7 @@ Hola Camilo,
 
 Me voy de vacaciones y no he terminado el trabajo que me dio el jefe. Por si acaso lo pide, aquí tienes la contraseña: 2k84dicb
 ```
+## Excalada de privilegios.
 Cambiamos al usuario Juan con la contraseña obtenida.
 ```bash
 su juan
