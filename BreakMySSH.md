@@ -92,3 +92,9 @@ Con hydra encontramos el password para el usuario root y nos conectamos por ssh 
 ```bash
 ssh root@172.17.0.2
 ```
+Probamos a conectarnos con la contraseña obtenida y tenemos acceso a la máquina como root.
+```bash
+root@74dc51463f0e:~# whoami
+root
+root@74dc51463f0e:~# 
+```
