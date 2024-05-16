@@ -49,7 +49,7 @@ nmap -sCV -p22,80 -vvv -oN versionPorts 172.17.0.2
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
 
-  ```bash
+```bash
   PORT   STATE SERVICE REASON         VERSION
 22/tcp open  ssh     syn-ack ttl 64 OpenSSH 7.6p1 Ubuntu 4ubuntu0.7 (Ubuntu Linux; protocol 2.0)
 | ssh-hostkey: 
