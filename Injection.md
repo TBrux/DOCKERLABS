@@ -34,14 +34,14 @@ nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 
 ```bash
 PORT   STATE SERVICE REASON
+22/tcp open  ssh     syn-ack ttl 64
 80/tcp open  http    syn-ack ttl 64
-MAC Address: 02:42:AC:11:00:02 (Unknown)
 ```
 
-Como tenemos abierto el puerto 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+Como tenemos abierto los puerto 22 y 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
-nmap -sCV -p80 -vvv -oN versionPorts 172.17.0.2
+nmap -sCV -p22,80 -vvv -oN versionPorts 172.17.0.2
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
 - `-p22,80`: Escaneo de los puertos 80 (HTTP).
