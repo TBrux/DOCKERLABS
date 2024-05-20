@@ -56,3 +56,13 @@ PORT   STATE SERVICE REASON         VERSION
 | http-methods: 
 |_  Supported Methods: OPTIONS HEAD GET POST
 ```
+Reviamos la web vemos un mensaje que han dejado.
+```
+Contáctanos
+
+¡Contáctanos hoy mismo para más información sobre nuestros programas de enseñanza de inglés!. Guardo un secretito en /tmp ;)
+```
+Nos quedmos que tenenmos que revisar el direcctorio **/tmp** cuando tengamos acceso al equipo. De momento vamos a hacer fuzzing a ver si encontramos algo.
+```bash
+gobuster dir -u http://172.17.0.2/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
+```
