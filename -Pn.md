@@ -49,8 +49,8 @@ nmap -sCV -p21,8080 -vvv -oN versionPorts 172.17.0.2
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
 ```bash
-PORT   STATE  SERVICE REASON         VERSION
-21/tcp open   ftp     syn-ack ttl 64 vsftpd 3.0.5
+PORT     STATE SERVICE REASON         VERSION
+21/tcp   open  ftp     syn-ack ttl 64 vsftpd 3.0.5
 | ftp-anon: Anonymous FTP login allowed (FTP code 230)
 |_-rw-r--r--    1 0        0              74 Apr 19 07:32 tomcat.txt
 | ftp-syst: 
@@ -63,10 +63,14 @@ PORT   STATE  SERVICE REASON         VERSION
 |      Session timeout in seconds is 300
 |      Control connection is plain text
 |      Data connections will be plain text
-|      At session startup, client count was 4
+|      At session startup, client count was 2
 |      vsFTPd 3.0.5 - secure, fast, stable
 |_End of status
-80/tcp closed http    reset ttl 64
+8080/tcp open  http    syn-ack ttl 64 Apache Tomcat 9.0.88
+|_http-favicon: Apache Tomcat
+|_http-title: Apache Tomcat/9.0.88
+| http-methods: 
+|_  Supported Methods: GET HEAD POST OPTIONS
 ```
 Vemos que tenemos el usuario Anonymous en el ftp abierto, así que vamos a conectarnos.
 ```bash
