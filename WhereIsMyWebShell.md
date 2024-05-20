@@ -97,7 +97,7 @@ Finished
 
 ```
 Hay dos páginas que llaman la atención **/warning.html** y **/shell.php**, así que vamos a revisarlas.
-En **/warning.html** encontramos el siguiente mensaje que ya nos indica que tenemos que buscar un parámetro para poder utilizar una websell.
+En **/warning.html** encontramos el siguiente mensaje, que ya nos indica que tenemos que buscar un parámetro para poder utilizar una websell.
 ```
 Esta web ha sido atacada por otro hacker, pero su webshell tiene un parámetro que no recuerdo...
 ```
