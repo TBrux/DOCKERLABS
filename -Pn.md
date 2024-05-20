@@ -44,7 +44,7 @@ Como tenemos abierto los puertos 21 y 8080, vamos a comprobar la versión y lanz
 nmap -sCV -p21,8080 -vvv -oN versionPorts 172.17.0.2
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
-- `-p80`: Escaneo de los puertos 80 (HTTP).
+- `-p21,8080`: Escaneo de los puertos 21 (FTP) y 8080 (HTTP).
 - `-vvv`: Salida muy detallada y verbosa.
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
