@@ -38,7 +38,7 @@ PORT   STATE SERVICE REASON
 80/tcp open  http    syn-ack ttl 64
 ```
 
-Como tenemos abierto los puerto 22 y 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+Como tenemos abierto los puertos 22 y 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
 nmap -sCV -p22,80 -vvv -oN versionPorts 172.17.0.2
