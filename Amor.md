@@ -119,7 +119,7 @@ drwxr-xr-x 1 root root  4096 Apr 26 11:02 ../
 -rw-r--r-- 1 root root 51914 Apr 26 11:02 imagen.jpg
 ```
 Nos descargamos la imagen a nuestro equipo para ver si tiene algo oculto.
-Con python creamos en la ubicación de la imagen un servidor http y la descargamos con wget desde nuestro ordenaodr.
+Con python creamos en la ubicación de la imagen un servidor http y la descargamos con wget desde nuestro ordenador.
 Servidor Python.
 ```bash
 python3 -m http.server 8080
