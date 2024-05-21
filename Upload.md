@@ -44,7 +44,7 @@ Como tenemos abierto el puerto 80, vamos a comprobar la versión y lanzar unos s
 nmap -sCV -p80 -vvv -oN versionPorts 172.17.0.2
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
-- `-p22,80`: Escaneo de los puertos 80 (HTTP).
+- `-p80`: Escaneo de los puertos 80 (HTTP).
 - `-vvv`: Salida muy detallada y verbosa.
 - `-oN versionPorts`: Guarda los resultados en "versionPorts".
 - `172.17.0.2`: Dirección IP del host escaneado.
