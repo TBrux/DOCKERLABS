@@ -81,7 +81,7 @@ PORT   STATE SERVICE REASON         VERSION
 | http-methods: 
 |_  Supported Methods: GET POST OPTIONS HEAD
 ```
-Vemos que tiene habilitado el usuario **Anonymous** y que hay un directorio llamado **upload** en el que tenemos permisos de escritura y ejecución, así que lo primero será conectarnos por ftp y subir una archivo php con una reverse shell.
+Vemos que tiene habilitado el usuario **Anonymous** y que hay un directorio llamado **upload**, en el que tenemos permisos de escritura y ejecución, así que lo primero será conectarnos por ftp y subir una archivo php con una reverse shell.
 ```bash
 ftp 172.17.0.2
 ```
