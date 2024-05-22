@@ -161,4 +161,9 @@ Vemos que tenemos acceso al panel de **/wp-admin** y que con las credenciales ob
 ![wp-admin](https://github.com/TBrux/DOCKERLABS/assets/168732212/4a7c0e8f-c08e-48f8-81d0-9bce0d4eeb08)
 
 ## Explotación.
+Cuando tenemos acceso a un panel de wordpress, lo primero que deberíamos hacer, es ir a ver si podemos modificar una página del tema y así poner nuestro código malicioso y de esta forma podemos obtener una reverse shell.
+
+
+
+Como estamos en la página
 
