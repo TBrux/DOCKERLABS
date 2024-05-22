@@ -89,3 +89,5 @@ Finished
 ===============================================================
 ```
 Ya vemos con el fuzzing que se trata de un wordpress, vamos a ver la página web y enumeramos con **wpscan**.
+![wordpress](https://github.com/TBrux/DOCKERLABS/assets/168732212/46ea7c22-9d71-45cf-a4ec-5278d3473d36)
+
