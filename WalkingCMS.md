@@ -158,3 +158,7 @@ Finished
 ```
 Vemos que tenemos acceso al panel de **/wp-admin** y que con las credenciales obtenidas tenemos acceso.
 
+![wp-admin](https://github.com/TBrux/DOCKERLABS/assets/168732212/4a7c0e8f-c08e-48f8-81d0-9bce0d4eeb08)
+
+## Explotación.
+
