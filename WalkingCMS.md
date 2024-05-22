@@ -56,7 +56,7 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Apache2 Debian Default Page: It works
 MAC Address: 02:42:AC:11:00:02 (Unknown)
 ```
-Cómo únicamente tenemos el puerto 80 abierto vamoa a enumerar desde la página web. Mientras vamos a ver la web dejamos corriendo **gobuster** para ir haciendo fuzzing.
+Cómo únicamente tenemos el puerto 80 abierto vamod a enumerar desde la página web. Mientras vamos a ver la web dejamos corriendo **gobuster** para ir haciendo fuzzing.
 ```bash
 gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php, txt, html
 ```
