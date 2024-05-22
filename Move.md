@@ -112,7 +112,7 @@ ftp> ls
 226 Directory send OK.
 ftp>
 ```
-Vemos que podemos descarganos un archivo de una base de datos de keepass. Nos lo descargamos y probamos a utilizarlo con **keepass2** pero tiene contraseña, así que vamos a ver que encontramos por el puerto 80.
+Vemos que podemos descargarnos un archivo de una base de datos de keepass. Nos lo descargamos y probamos a utilizarlo con **keepass2** pero tiene contraseña, así que vamos a ver que encontramos por el puerto 80.
 ```bash
 ❯ gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,txt,html
 ===============================================================
