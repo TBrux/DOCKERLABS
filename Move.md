@@ -147,7 +147,7 @@ Probamos a ver si encontramos algo en la página **/maintenance.html**, que es l
 
 ![move](https://github.com/TBrux/DOCKERLABS/assets/168732212/77343f47-7ba7-4fed-9786-a5c6f242363b)
 
-Cómo no vemos nada más en el puerto 80, vamos a ver que encontramos en el puerto 3000, y nos encontramos con un panel de login de Grafana v8.3.0.
+Como no vemos nada más en el puerto 80, vamos a ver que encontramos en el puerto 3000, y nos encontramos con un panel de login de Grafana v8.3.0.
 
 ![grafana](https://github.com/TBrux/DOCKERLABS/assets/168732212/1d77444d-d660-4e2c-b079-4b5047c181f2)
 
