@@ -144,5 +144,10 @@ Finished
 ```
 Probamos a ver si encontramos algo en la página **/maintenance.html**, que es la única que llama la atención y vemos que hay un mensaje que tendremos en cuenta cuando tengamos acceso a la máquina.
 
+![move](https://github.com/TBrux/DOCKERLABS/assets/168732212/77343f47-7ba7-4fed-9786-a5c6f242363b)
+
+Cómo no vemos nada más en el puerto 80, vamos a ver que encontramos en el puerto 3000, y nos encontramos con un panel de login de Grafana v8.3.0.
+
+
 
 
