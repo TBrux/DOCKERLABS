@@ -40,7 +40,7 @@ PORT     STATE SERVICE REASON
 3000/tcp open  ppp     syn-ack ttl 64
 ```
 
-Como tenemos abierto los puertos 22 y 80, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+Como tenemos abierto los puertos 21,22,80 y 3000 vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
 nmap -sCV -p21,22,80,3000 -vvv -oN versionPorts 172.17.0.2
