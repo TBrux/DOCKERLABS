@@ -103,4 +103,7 @@ Si buscamos en [HackTricks](https://book.hacktricks.xyz/pentesting-web/file-uplo
 ```
 En este caso, la extensión que nos va a funcionar es **.phar**, así que subiremos una reverse shell en un archivo php, en mi caso he utilizado este de [GITHUB](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) de pentestmonkey.
 
+![reverseshell](https://github.com/TBrux/DOCKERLABS/assets/168732212/479d4098-eee7-493f-813d-68433fa2ebde)
+
+Una vez subido, cuando hemos hecho fuzzing hemos encontrado un directorio llamado **/uploads**, vamos a ese directorio desde el navegaos y ahí tenemos nuestra revershell subida.
 
