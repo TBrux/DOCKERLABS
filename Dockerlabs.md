@@ -94,4 +94,13 @@ Finished
 ===============================================================
 ```
 En la página principal no encontramos nada relevante, pero si vemos que hemos encontrado un página **machine.php** que es interesante.
+![uploadfile](https://github.com/TBrux/DOCKERLABS/assets/168732212/ff1b1175-d44c-4f6b-a996-333b763e137c)
+
+Intentamos subir un archivo **.php** pero está restingido a solo archivos **.zip**.
+Si buscamos en [HackTricks](https://book.hacktricks.xyz/pentesting-web/file-upload), encontramos diferentes extensiones para hacer un **bypass** y poder ejecutar código php.
+```
+    PHP: .php, .php2, .php3, .php4, .php5, .php6, .php7, .phps, .phps, .pht, .phtm, .phtml, .pgif, .shtml, .htaccess, .phar, .inc, .hphp, .ctp, .module
+```
+En este caso, la extensión que nos va a funcionar es **.phar**, así que subiremos una reverse shell en un archivo php, en mi caso he utilizado este de [GITHUB](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) de pentestmonkey.
+
 
