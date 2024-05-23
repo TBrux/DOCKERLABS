@@ -57,3 +57,7 @@ PORT     STATE SERVICE REASON         VERSION
 |     HTTP/1.1 200 OK
 |     Server: Werkzeug/3.0.2 Python/3.12.2
 ```
+Vamos a ver que encontramos en el puerto 5000 y vemos que es una página con lo que parece un intérprete de **Python**.
+
+
+
