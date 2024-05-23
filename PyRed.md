@@ -38,7 +38,7 @@ PORT     STATE SERVICE REASON
 5000/tcp open  upnp    syn-ack ttl 64
 ```
 
-Como tenemos abierto el puertos 5000, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
+Como tenemos abierto el puerto 5000, vamos a comprobar la versión y lanzar unos scripts básicos para ver que información obtenemos.
 
 ```bash
 nmap -sCV -p5000 -vvv -oN versionPorts 172.17.0.2
