@@ -97,6 +97,7 @@ Finished
 ## Explotación.
 
 En la página principal no encontramos nada relevante, pero si vemos que hemos encontrado un página **machine.php** que es interesante.
+
 ![uploadfile](https://github.com/TBrux/DOCKERLABS/assets/168732212/ff1b1175-d44c-4f6b-a996-333b763e137c)
 
 Intentamos subir un archivo **.php** pero está restingido a solo archivos **.zip**.
