@@ -58,3 +58,40 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-server-header: Apache/2.4.58 (Ubuntu)
 |_http-title: Dockerlabs
 ```
+Utilizamos **gobuster** para hacer fuzzing y ver si encontramos algo que nos pueda ser útil.
+```bash
+gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
+```
+```
+❯ gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
+===============================================================
+Gobuster v3.6
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://172.17.0.2
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.6
+[+] Extensions:              php,html,txt
+[+] Timeout:                 10s
+===============================================================
+Starting gobuster in directory enumeration mode
+===============================================================
+/.php                 (Status: 403) [Size: 275]
+/.html                (Status: 403) [Size: 275]
+/index.php            (Status: 200) [Size: 8235]
+/uploads              (Status: 301) [Size: 310] [--> http://172.17.0.2/uploads/]
+/upload.php           (Status: 200) [Size: 0]
+/machine.php          (Status: 200) [Size: 1361]
+/.php                 (Status: 403) [Size: 275]
+/.html                (Status: 403) [Size: 275]
+/server-status        (Status: 403) [Size: 275]
+Progress: 882240 / 882244 (100.00%)
+===============================================================
+Finished
+===============================================================
+```
+En la página principal no encontramos nada relevante, pero si vemos que hemos encontrado un página **machine.php** que es interesante.
+
