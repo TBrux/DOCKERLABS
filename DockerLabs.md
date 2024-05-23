@@ -113,7 +113,7 @@ Una vez subido, cuando hemos hecho fuzzing hemos encontrado un directorio llamad
 
 ![uploads](https://github.com/TBrux/DOCKERLABS/assets/168732212/8b7728a5-9405-4a06-b8e4-cb63c4cdb44f)
 
-Ahora nos ponemos en escucha en el puerto configurado en nuestro archivo php y lo ejecutamos.
+Ahora nos ponemos en escucha en el puerto configurado en nuestro archivo phar y lo ejecutamos.
 ```
 ❯ nc -lvnp 4443
 listening on [any] 4443 ...
