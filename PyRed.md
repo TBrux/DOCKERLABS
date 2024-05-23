@@ -58,6 +58,8 @@ PORT     STATE SERVICE REASON         VERSION
 |     Server: Werkzeug/3.0.2 Python/3.12.2
 ```
 Vamos a ver que encontramos en el puerto 5000 y vemos que es una página con lo que parece un intérprete de **Python**.
+![python](https://github.com/TBrux/DOCKERLABS/assets/168732212/62e5c69b-3c12-446f-b82e-420d76ab694a)
+
 
 
 
