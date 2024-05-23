@@ -23,6 +23,7 @@ Lanzamos nmap para ver que puertos nos encuentra.
 ```bash
 nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 ```
+```
 - `-sS`: Realiza un escaneo SYN.
 - `-p-`: Escanea todos los puertos.
 - `--open`: Muestra solo los puertos abiertos.
@@ -32,7 +33,7 @@ nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 - `-Pn`: Omite la detección de hosts.
 - `-oG allPorts`: Guarda los resultados en un archivo llamado "allPorts".
 - `172.17.0.2`: La dirección IP del host objetivo.
-
+```
 ```
 PORT   STATE SERVICE REASON
 80/tcp open  http    syn-ack ttl 64
@@ -41,7 +42,6 @@ Como tenemos abierto el puerto 80, vamos a comprobar la versión y lanzar unos s
 
 ```bash
 nmap -sCV -p80 -vvv -oN versionPorts 172.17.0.2
-```
 ```
 ```
 - `-sCV`: Escaneo de versiones y vulnerabilidades.
