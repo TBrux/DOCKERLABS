@@ -68,7 +68,7 @@ PORT     STATE SERVICE  REASON         VERSION
 |   GetRequest: 
 |     HTTP/1.1 200 OK
 ```
-Enumeros los tres puerto y vemos que en el puerto 5000, tenemos una página con la que podemos lanzar un ping a una ip.
+Enumero los tres puertos y vemos que en el puerto 5000, tenemos una página con la que podemos lanzar un ping a una ip.
 ![ping](https://github.com/TBrux/DOCKERLABS/assets/168732212/e8b49c6e-05d4-4ca7-86dc-56163e91f21a)
 
 ## Explotación.
