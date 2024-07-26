@@ -121,3 +121,19 @@ Obtenemos la contraseña **iloveme** y nos conectamos con el usuario **russoski*
 ssh russoski@172.17.0.2
 ```
 ![image](https://github.com/user-attachments/assets/9845a17f-484d-46fc-8ec5-40acc68ed421)
+
+Una vez conectados, comprobamos si tenemos algún binario que podamos ejecutar con privilegios de **root** y nos encontramos que podemos ejecutar **/usr/bin/vim**.
+
+![image](https://github.com/user-attachments/assets/98ec19ce-8c4d-4c5b-9a85-cd89738ac722)
+
+```
+sudo -uroot /usr/bin/vim
+```
+Desde dentro del editor tenemos que escribir los siguiente.
+
+```
+:!/bin/bash
+```
+Y ya estariamos como **root**.
+
+![image](https://github.com/user-attachments/assets/4c76903b-36cc-4ea0-a699-a3a95e410245)
