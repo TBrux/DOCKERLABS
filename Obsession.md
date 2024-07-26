@@ -88,7 +88,7 @@ Utilizamos **gobuster** para hacer fuzzing y ver si encontramos algo que nos pue
 ```bash
 gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
 ```
-Mientras gobustar hace el esceno nos conectamos al **FTP** como *anonymous* y password da igual lo que pongamos, y nos descargamos los dos ficheros que están ahí.
+Mientras gobuster hace el esceno nos conectamos al **FTP** como *anonymous* y password da igual lo que pongamos, y nos descargamos los dos ficheros que están ahí.
 ```
 ftp 172.17.0.2
 mget *
