@@ -105,7 +105,7 @@ Starting gobuster in directory enumeration mode
 /.html                (Status: 403) [Size: 275]
 /server-status        (Status: 403) [Size: 275]
 ```
-Dentro del direcctorio **/backup** hay un archivo *.txt* que si lo abrimos tenemos imformación importante.
+Dentro del direcctorio **/backup** hay un archivo *.txt* que si lo abrimos tenemos información importante.
 
 ![image](https://github.com/user-attachments/assets/565355b9-55c3-4d29-9fd1-dc688c1c32d1)
 
