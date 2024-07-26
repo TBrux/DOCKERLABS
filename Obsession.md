@@ -117,6 +117,8 @@ Obtenemos la contraseña **iloveme** y nos conectamos con el usuario **russoski*
 
 ![image](https://github.com/user-attachments/assets/3783b387-3dc9-453a-a250-bbaea68587bf)
 
+## Explotación
+
 ```
 ssh russoski@172.17.0.2
 ```
