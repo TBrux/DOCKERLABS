@@ -69,7 +69,7 @@ gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web
 ![image](https://github.com/user-attachments/assets/527503ea-c5e6-49fe-99f5-d639bb52c61d)
 
 Nos encontramos con este mensaje en el archivo txt que encontramos con **gobuster** llamado *qdefense.txt*.
-A parte que nos informa de un posible usuario **toctoc**, por la información del fichero podría tratarse de una secuencia de puertos que tendríamos que utilizar para obtener información. Deberemos utilizar la técnica de **Port Knocking**.
+A parte de que nos informa de un posible usuario **toctoc**, por la información del fichero podría tratarse de una secuencia de puertos que tendríamos que utilizar para obtener información. Deberemos utilizar la técnica de **Port Knocking**.
 
 *Port Knocking es una técnica de seguridad utilizada para controlar el acceso a servicios en un servidor, como una forma de autenticación antes de permitir la conexión a puertos específicos. La idea principal es que los puertos en un servidor están "cerrados" y no responden a conexiones normales hasta que se haya completado una secuencia particular de intentos de conexión en puertos específicos, conocida como "knock sequence" o secuencia de golpeo.*
 
