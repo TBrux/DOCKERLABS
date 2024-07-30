@@ -74,8 +74,11 @@ Por la información del fichero podría tratarse de una secuencia de puertos que
 *Port Knocking es una técnica de seguridad utilizada para controlar el acceso a servicios en un servidor, como una forma de autenticación antes de permitir la conexión a puertos específicos. La idea principal es que los puertos en un servidor están "cerrados" y no responden a conexiones normales hasta que se haya completado una secuencia particular de intentos de conexión en puertos específicos, conocida como "knock sequence" o secuencia de golpeo.*
 **¿Cómo funciona?**
 *Secuencia de Golpeo:* El usuario debe intentar conectarse a una serie de puertos en un orden específico. Por ejemplo, primero al puerto 7000, luego al 8000, y finalmente al 9000. Estos intentos pueden hacerse con paquetes de TCP, UDP o ICMP.
+
 *Registro de Golpes:* El servidor está monitoreando los intentos de conexión a estos puertos. No responde a los intentos, pero los registra.
+
 *Verificación de la Secuencia:* Si el servidor detecta que se ha seguido la secuencia correcta de golpes en los puertos, puede activar un script o una regla de firewall que abra el puerto que el usuario quiere acceder (por ejemplo, el puerto 22 para SSH).
+
 *Acceso Permitido:* Una vez que se permite el acceso, el usuario puede conectarse normalmente al puerto deseado.
 
 
