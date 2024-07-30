@@ -116,6 +116,8 @@ PORT   STATE SERVICE REASON
 22/tcp open  ssh     syn-ack ttl 64
 80/tcp open  http    syn-ack ttl 64
 ```
+## Explotación.
+
 Ahora utilizamos **hydra** con el usuario **toctoc** obtenido en el archivo txt, para con fuerza bruta descubrir la contraseña.
 
 ```
