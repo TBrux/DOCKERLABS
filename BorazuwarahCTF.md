@@ -88,6 +88,16 @@ Ahora nos conectamos por **ssh** con las credenciales obtenidas.
 
 ![image](https://github.com/user-attachments/assets/481a1e42-2d48-4fe3-b56f-4b320d8b4942)
 
+## Escalada de privilegios.
+
+Comprobamos si hay algún binario que podamos explotar y nos encontramos que podmos ejecutar como **root** una **/bin/bash**.
+
+![image](https://github.com/user-attachments/assets/65af5a3f-6ad7-4ca0-bc70-fdcf3049cd2a)
+
+```
+sudo -u root /bin/bash
+```
+![image](https://github.com/user-attachments/assets/84a75270-1f2a-4748-8eb0-6f194110f104)
 
 
 
