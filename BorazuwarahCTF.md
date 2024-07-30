@@ -90,7 +90,7 @@ Ahora nos conectamos por **ssh** con las credenciales obtenidas.
 
 ## Escalada de privilegios.
 
-Comprobamos si hay algún binario que podamos explotar y nos encontramos que podmos ejecutar como **root** una **/bin/bash**.
+Comprobamos si hay algún binario que podamos explotar y nos encontramos que podemos ejecutar como **root** una **/bin/bash**.
 
 ![image](https://github.com/user-attachments/assets/65af5a3f-6ad7-4ca0-bc70-fdcf3049cd2a)
 
