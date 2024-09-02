@@ -43,6 +43,7 @@ En la página principal vemos la página por defecto de Apache, por lo que vamos
 ++++++++++[>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++++>++++++++++>+++++++++++>++++++++++++>++++++++++>++++++++++++>++++++++++>+++++++++++>+++++++++++>+>+<<<<<<<<<<<<<<<<<-]>--.>+.>--.>+.>---.>+++.>---.>---.>+++.>---.>+..>-----..>---.>.>+.>+++.>.
 ```
 Es un mensaje codificado en **brainfuck** y si vamos a [dcode](https://www.dcode.fr/brainfuck-language) podremos descifraslo fácilmente.
+
 ![image](https://github.com/user-attachments/assets/1c963813-2e64-4947-a5dd-0f45f7dd3808)
 
 Una vez tenemos una posible contraseña, miramos el resultado del fuzzin a ver si encontramos algo.
