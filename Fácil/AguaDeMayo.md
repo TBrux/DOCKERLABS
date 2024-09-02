@@ -37,7 +37,7 @@ sudo nmap -sSCV -p- --open --min-rate 5000 -vvv -n -Pn -oG allPorts 172.17.0.2
 ```
 ![image](https://github.com/user-attachments/assets/ed50cfd3-edc0-44cd-82a7-3674d6df2be8)
 
-En la página principal vemos la página por defecto de Apache, por lo que vamos a hacer fuzzing con **gobuster**. Anque si miramos el código fuente de la página y bajamos hata el final nos encontramos con un comentario.
+En la página principal vemos la página por defecto de Apache, por lo que vamos a hacer fuzzing con **gobuster**. Aunque si miramos el código fuente de la página y bajamos hata el final nos encontramos con un comentario.
 
 ```
 ++++++++++[>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++>++++++++++++>++++++++++>+++++++++++>++++++++++++>++++++++++>++++++++++++>++++++++++>+++++++++++>+++++++++++>+>+<<<<<<<<<<<<<<<<<-]>--.>+.>--.>+.>---.>+++.>---.>---.>+++.>---.>+..>-----..>---.>.>+.>+++.>.
