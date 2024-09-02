@@ -46,7 +46,7 @@ Es un mensaje codificado en **brainfuck** y si vamos a [dcode](https://www.dcode
 
 ![image](https://github.com/user-attachments/assets/1c963813-2e64-4947-a5dd-0f45f7dd3808)
 
-Una vez tenemos una posible contraseña, miramos el resultado del fuzzin a ver si encontramos algo.
+Una vez tenemos una posible contraseña, miramos el resultado del fuzzing a ver si encontramos algo.
 
 ```
 gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt -x php,html,txt
