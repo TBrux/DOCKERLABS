@@ -64,7 +64,9 @@ Progress: 882240 / 882244 (100.00%)
 Finished
 ===============================================================
 ```
-Revisamos la páginas y no encontramos nada que nos sirva así que vamos a empezar a enumerar por los puerto 139 y 445.
+Esto descubre varios directorios útiles, entre ellos /index.php y /productos.php. Al no encontrar información relevante en el contenido de estas rutas, seguimos enumerando puertos de red 139 y 445 (SMB).
+
+Enumeración de SMB
 ```bash
 enum4linux 172.17.0.2
 ```
