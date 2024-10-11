@@ -114,6 +114,7 @@ Podemos observar que es el directorio donde se encuentras las páginas php, así
 put shell.php
 ```
 Una vez que la hemos subido, nos ponemos en escucha por el puerto especificado y en el navegador ponemos la dirección de la página subida.
+
 ![image](https://github.com/user-attachments/assets/ff80edc9-4773-4dc7-a90f-d6dffff7706f)
 
 ![image](https://github.com/user-attachments/assets/e81330b0-b89a-41e2-9aee-af859842266d)
