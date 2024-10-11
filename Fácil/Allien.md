@@ -106,7 +106,7 @@ smbclient //172.17.0.2/home -U administrador
 ```
 ![image](https://github.com/user-attachments/assets/2dabfdbc-60f6-454e-9f1a-5b3ef57ea7be)
 
-Podemos observar que es el directorio donde se encuentras las páginas php, así que como tenemos permisos de escritura subimos una revershell, en mi caso de PentestMonkey[https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php], sustituimos la IP y PUERTO con los nuestros y la subimos al directorio.
+Podemos observar que es el directorio donde se encuentras las páginas php, así que como tenemos permisos de escritura subimos una revershell, en mi caso de [PentestMonkey](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php), sustituimos la IP y PUERTO con los nuestros y la subimos al directorio.
 
 ```bash
 put shell.php
