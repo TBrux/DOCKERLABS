@@ -95,7 +95,7 @@ smbclient //172.17.0.2/backup24 -U satriani7
 ```bash
 get credentials.txt
 ```
-En el archivo nos encontramos con las credenciales de varios usuario y sus contraseñas, vamos a utilizar las del usuario *administrador* para ver los recursos compartidos y luego con *smbclient* conectarnos a la máquina.
+En el archivo nos encontramos con las credenciales de varios usuarios y sus contraseñas, vamos a utilizar las del usuario *administrador* para ver los recursos compartidos y luego con *smbclient* conectarnos a la máquina.
 ```bash
 smbmap -H 172.17.0.2 -u administrador -p Adm1nP4ss2024
 ```
