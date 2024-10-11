@@ -1,7 +1,6 @@
 # Los 40 ladrones
 ![image](https://github.com/user-attachments/assets/a47f0df8-8745-432f-83bc-3604923d79c9)
 
-
 ## Reconocimiento y Enumeración.
 
 Comprobar que la máquina está en marcha.
