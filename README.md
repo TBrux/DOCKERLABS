@@ -1,4 +1,4 @@
 # DOCKERLABS
-Write-ups about the DockerLabs platform.
+# Write-ups sobre la plataforma DockerLabs
 
-In this repository, I will be uploading the write-ups of the machines that I finish.
+En este repositorio, estaré subiendo los write-ups de las máquinas que termine.
