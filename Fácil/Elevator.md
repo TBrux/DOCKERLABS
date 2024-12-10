@@ -46,7 +46,7 @@ gobuster dir -u http://172.17.0.2 -w /usr/share/wordlists/seclists/Discovery/Web
 ```
 ![image](https://github.com/user-attachments/assets/bd15383a-3374-4318-b93d-c976cb398283)
 
-Como no encontramos nada, seguimos buscando en directorios en este caso vamos al directorio **http://172.17.0.2/themes/**
+Como no encontramos nada, seguimos buscando en directorios, en este caso vamos al directorio **http://172.17.0.2/themes/**
 
 ![image](https://github.com/user-attachments/assets/0f497aa0-9c13-4687-a06d-44425ca59927)
 
